@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة مشاهدة بثوث Kick</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #0b0e0f;
+            color: #ffffff;
+            font-family: system-ui, -apple-system, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #53fc18;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+        select, input, button {
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #53fc18;
+            background-color: #192320;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+        }
+        button {
+            background-color: #53fc18;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #42cb12;
+        }
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            width: 100%;
+            max-width: 1300px;
+            justify-content: center;
+        }
+        .player-box {
+            flex: 3;
+            min-width: 320px;
+            height: 600px;
+        }
+        .chat-box {
+            flex: 1;
+            min-width: 300px;
+            height: 600px;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+        @media (max-width: 768px) {
+            .player-box, .chat-box {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎬 منصة بثوث Kick المباشرة</h1>
+
+    <div class="controls">
+        <select id="channelSelect" onchange="changeChannel(this.value)">
+            <option value="xqc">xQc</option>
+            <option value="trainwreckstv">Trainwreckstv</option>
+            <option value="hikaru">Hikaru</option>
+        </select>
+
+        <input type="text" id="customInput" placeholder="اكتب اسم أي استريمر..." />
+        <button onclick="loadCustom()">تشغيل</button>
+    </div>
+
+    <div class="main-container">
+        <!-- مشغل الفيديو -->
+        <div class="player-box">
+            <iframe id="videoFrame" src="https://player.kick.com/xqc" allowfullscreen="true"></iframe>
+        </div>
+        <!-- الشات -->
+        <div class="chat-box">
+            <iframe id="chatFrame" src="https://kick.com/popout/xqc/chat"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function changeChannel(channelName) {
+            if(!channelName) return;
+            var cleanName = channelName.trim().toLowerCase();
+            document.getElementById('videoFrame').src = "https://player.kick.com/" + cleanName;
+            document.getElementById('chatFrame').src = "https://kick.com/popout/" + cleanName + "/chat";
+        }
+
+        function loadCustom() {
+            var val = document.getElementById('customInput').value;
+            if(val) {
+                changeChannel(val);
+            }
+        }
+    </script>
+
+</body>
+</html>
