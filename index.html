@@ -3,125 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة مشاهدة بثوث Kick</title>
+    <title>مشاهدة بثوث Kick بدون VPN</title>
+    <!-- مكتبة HLS.js لتشغيل البثوث المباشرة -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
         body {
             background-color: #0b0e0f;
-            color: #ffffff;
-            font-family: system-ui, -apple-system, sans-serif;
-            padding: 20px;
+            color: #fff;
+            font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
         }
-        h1 {
-            color: #53fc18;
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
+        h1 { color: #53fc18; margin-bottom: 20px; text-align: center; }
         .controls {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
             width: 100%;
-            max-width: 1200px;
+            max-width: 600px;
         }
-        select, input, button {
-            padding: 12px 16px;
+        input {
+            flex: 1;
+            padding: 12px;
             border-radius: 8px;
             border: 1px solid #53fc18;
-            background-color: #192320;
+            background: #192320;
             color: #fff;
             font-size: 16px;
-            outline: none;
         }
         button {
-            background-color: #53fc18;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            background: #53fc18;
             color: #000;
             font-weight: bold;
+            font-size: 16px;
             cursor: pointer;
-            border: none;
         }
-        button:hover {
-            background-color: #42cb12;
-        }
-        .main-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
+        .video-container {
             width: 100%;
-            max-width: 1300px;
-            justify-content: center;
-        }
-        .player-box {
-            flex: 3;
-            min-width: 320px;
-            height: 600px;
-        }
-        .chat-box {
-            flex: 1;
-            min-width: 300px;
-            height: 600px;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+            max-width: 900px;
+            background: #000;
             border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
         }
-        @media (max-width: 768px) {
-            .player-box, .chat-box {
-                height: 400px;
-            }
-        }
+        video { width: 100%; height: auto; display: block; }
     </style>
 </head>
 <body>
 
-    <h1>🎬 منصة بثوث Kick المباشرة</h1>
+    <h1>🎬 مشاهدة بثوث Kick بدون VPN</h1>
 
     <div class="controls">
-        <select id="channelSelect" onchange="changeChannel(this.value)">
-            <option value="xqc">xQc</option>
-            <option value="trainwreckstv">Trainwreckstv</option>
-            <option value="hikaru">Hikaru</option>
-        </select>
-
-        <input type="text" id="customInput" placeholder="اكتب اسم أي استريمر..." />
-        <button onclick="loadCustom()">تشغيل</button>
+        <input type="text" id="streamUrl" placeholder="ضع رابط البث المباشر (.m3u8)..." />
+        <button onclick="playStream()">تشغيل</button>
     </div>
 
-    <div class="main-container">
-        <!-- مشغل الفيديو -->
-        <div class="player-box">
-            <iframe id="videoFrame" src="https://player.kick.com/xqc" allowfullscreen="true"></iframe>
-        </div>
-        <!-- الشات -->
-        <div class="chat-box">
-            <iframe id="chatFrame" src="https://kick.com/popout/xqc/chat"></iframe>
-        </div>
+    <div class="video-container">
+        <video id="video" controls autoplay></video>
     </div>
 
     <script>
-        function changeChannel(channelName) {
-            if(!channelName) return;
-            var cleanName = channelName.trim().toLowerCase();
-            document.getElementById('videoFrame').src = "https://player.kick.com/" + cleanName;
-            document.getElementById('chatFrame').src = "https://kick.com/popout/" + cleanName + "/chat";
-        }
+        // رابط الـ Cloudflare Worker الخاص بك
+        const PROXY_WORKER = "https://sweet-tooth-0a92.markbrabos010.workers.dev/?url=";
 
-        function loadCustom() {
-            var val = document.getElementById('customInput').value;
-            if(val) {
-                changeChannel(val);
+        function playStream() {
+            const rawUrl = document.getElementById('streamUrl').value.trim();
+            if(!rawUrl) return alert("يرجى إدخال رابط البث المباشر (.m3u8) أولاً!");
+
+            const proxiedUrl = PROXY_WORKER + encodeURIComponent(rawUrl);
+            const video = document.getElementById('video');
+
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(proxiedUrl);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    video.play();
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = proxiedUrl;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play();
+                });
             }
         }
     </script>
