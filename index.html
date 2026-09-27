@@ -127,6 +127,9 @@
     </div>
 
     <script>
+        // رابط الخادم الوسيط الخاص بك
+        const WORKER_URL = "https://sweet-tooth-0a92.markbrabos010.workers.dev";
+
         const mtStreamers = [
             "ABOKYAN", "Basamlv", "s6mito", "DrFx", "brof2", "Fahad", "Firas", 
             "xEiD", "i3SW", "Majah92", "xlxwi", "OSAMAH", "AbuSwe7l", "tmnaa", 
@@ -162,10 +165,9 @@
 
         function loadStream(channel) {
             channel = channel.replace("https://kick.com/", "").replace("/", "").trim();
-            const currentHost = window.location.hostname || "markbrabos010-lab.github.io";
             
-            // تضمين اسم النطاق (parent) يحل حظر المشغل في منصة Kick
-            document.getElementById('player').src = `https://player.kick.com/${channel}?autoplay=true&parent=${currentHost}`;
+            // يرسل اسم القناة إلى الـ Worker لتتخطى حظر الـ VPN
+            document.getElementById('player').src = `${WORKER_URL}/${channel}`;
         }
 
         createButtons(mtStreamers, 'mtList');
