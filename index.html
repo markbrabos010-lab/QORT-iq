@@ -156,21 +156,18 @@
 
         function playChannel() {
             let channel = document.getElementById('channelName').value.trim();
-            if(!channel) {
-                alert("يرجى إدخال اسم القناة أو اختيارها من القائمة!");
-                return;
-            }
+            if(!channel) return alert("يرجى إدخال اسم القناة أو اختيارها من القائمة!");
             loadStream(channel);
         }
 
         function loadStream(channel) {
-            // تنظيف الرابط في حال تم لصق رابط كامل
             channel = channel.replace("https://kick.com/", "").replace("/", "").trim();
-            const playerFrame = document.getElementById('player');
-            playerFrame.src = `https://player.kick.com/${channel}?autoplay=true`;
+            const currentHost = window.location.hostname || "markbrabos010-lab.github.io";
+            
+            // تضمين اسم النطاق (parent) يحل حظر المشغل في منصة Kick
+            document.getElementById('player').src = `https://player.kick.com/${channel}?autoplay=true&parent=${currentHost}`;
         }
 
-        // تشغيل البناء عند تحميل الصفحة
         createButtons(mtStreamers, 'mtList');
         createButtons(top20Streamers, 'top20List');
     </script>
