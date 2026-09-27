@@ -22,7 +22,7 @@
             gap: 10px;
             margin-bottom: 15px;
             width: 100%;
-            max-width: 900px;
+            max-width: 1000px;
         }
         input {
             flex: 1;
@@ -33,31 +33,55 @@
             color: #fff;
             font-size: 16px;
         }
-        button.play-btn {
-            padding: 12px 24px;
+        button {
+            padding: 12px 20px;
             border-radius: 8px;
             border: none;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .play-btn {
             background: #53fc18;
             color: #000;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
+        }
+        .chat-toggle-btn {
+            background: #1e2c24;
+            color: #53fc18;
+            border: 1px solid #53fc18;
         }
         .main-container {
             display: flex;
             flex-direction: column;
             gap: 15px;
             width: 100%;
-            max-width: 900px;
+            max-width: 1000px;
+        }
+        .player-wrapper {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            height: 500px;
         }
         .video-container {
-            width: 100%;
-            height: 480px;
+            flex: 1;
+            height: 100%;
             background: #000;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(0,0,0,0.8);
             border: 1px solid #28382c;
+        }
+        .chat-container {
+            width: 320px;
+            height: 100%;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            border: 1px solid #28382c;
+            display: block; /* افتراضياً يظهر عند التشغيل */
         }
         iframe { width: 100%; height: 100%; border: none; }
 
@@ -108,11 +132,19 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            transition: 0.2s;
         }
         .streamer-btn:hover {
             background: #53fc18;
             color: #000;
+        }
+
+        @media (max-width: 768px) {
+            .player-wrapper {
+                flex-direction: column;
+                height: auto;
+            }
+            .video-container { height: 300px; }
+            .chat-container { width: 100%; height: 400px; }
         }
     </style>
 </head>
@@ -123,11 +155,17 @@
     <div class="controls">
         <input type="text" id="channelName" placeholder="اكتب اسم القناة..." />
         <button class="play-btn" onclick="playChannel()">تشغيل</button>
+        <button class="chat-toggle-btn" id="toggleChatBtn" onclick="toggleChat()">💬 إخفاء الچات</button>
     </div>
 
     <div class="main-container">
-        <div class="video-container">
-            <iframe id="player" src="about:blank" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+        <div class="player-wrapper">
+            <div class="video-container">
+                <iframe id="player" src="about:blank" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+            </div>
+            <div class="chat-container" id="chatBox">
+                <iframe id="chatPlayer" src="about:blank"></iframe>
+            </div>
         </div>
 
         <a id="externalLink" href="#" target="_blank" class="direct-btn">🔗 فتح القناة مباشرة عبر التطبيق / الموقع</a>
@@ -142,8 +180,6 @@
     </div>
 
     <script>
-        const WORKER_BASE = "https://sweet-tooth-0a92.markbrabos010.workers.dev/";
-
         const mtStreamers = [
             "ABOKYAN", "Basamlv", "s6mito", "DrFx", "brof2", "Fahad", "Firas", 
             "xEiD", "i3SW", "Majah92", "xlxwi", "OSAMAH", "AbuSwe7l", "tmnaa", 
@@ -156,6 +192,8 @@
             "absi", "SHERO", "bo3of", "oPiiLz", "abuswe7l", "3mr", "abu_abeer16",
             "firas", "SXB", "Azza", "trainwreckstv", "roshtein", "mizkif", "yassuo"
         ];
+
+        let isChatVisible = true;
 
         function createButtons(list, containerId) {
             const container = document.getElementById(containerId);
@@ -180,13 +218,31 @@
         function loadStream(channel) {
             channel = channel.replace("https://kick.com/", "").replace("/", "").trim();
             
-            // تشغيل المشغل المباشر
+            // تشغيل مشغل البث
             document.getElementById('player').src = `https://player.kick.com/${channel}`;
             
-            // تجهيز رابط الفتح المباشر كخيار احتياطي
+            // تشغيل الچات المباشر
+            document.getElementById('chatPlayer').src = `https://kick.com/popout/${channel}/chat`;
+            
+            // رابط احتياطي
             const extLink = document.getElementById('externalLink');
             extLink.href = `https://kick.com/${channel}`;
             extLink.style.display = "block";
+        }
+
+        function toggleChat() {
+            const chatBox = document.getElementById('chatBox');
+            const toggleBtn = document.getElementById('toggleChatBtn');
+            
+            if (isChatVisible) {
+                chatBox.style.display = 'none';
+                toggleBtn.innerText = '💬 إظهار الچات';
+                isChatVisible = false;
+            } else {
+                chatBox.style.display = 'block';
+                toggleBtn.innerText = '💬 إخفاء الچات';
+                isChatVisible = true;
+            }
         }
 
         createButtons(mtStreamers, 'mtList');
