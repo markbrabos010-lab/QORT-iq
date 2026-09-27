@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QORT - بثوث Kick</title>
+    <title>QORT - بثوث Kick المباشرة</title>
     <style>
+        * { box-sizing: border-box; }
         body {
             background-color: #0b0e0f;
             color: #fff;
@@ -33,7 +34,7 @@
             font-size: 16px;
         }
         button.play-btn {
-            padding: 12px 20px;
+            padding: 12px 24px;
             border-radius: 8px;
             border: none;
             background: #53fc18;
@@ -45,7 +46,7 @@
         .main-container {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
             width: 100%;
             max-width: 900px;
         }
@@ -56,26 +57,16 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            border: 1px solid #28382c;
         }
         iframe { width: 100%; height: 100%; border: none; }
         
-        .tabs {
-            display: flex;
-            gap: 10px;
+        .section-title {
+            color: #53fc18;
+            font-size: 18px;
             margin-bottom: 10px;
-        }
-        .tab-btn {
-            padding: 8px 16px;
-            background: #1e2c24;
-            color: #fff;
-            border: 1px solid #36503c;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .tab-btn.active {
-            background: #53fc18;
-            color: #000;
+            border-bottom: 1px solid #28382c;
+            padding-bottom: 5px;
         }
 
         .streamers-section {
@@ -84,18 +75,19 @@
             border-radius: 12px;
             padding: 15px;
         }
+        
         .streamer-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
             gap: 8px;
-            max-height: 250px;
-            overflow-y: auto;
+            margin-bottom: 20px;
         }
+        
         .streamer-btn {
             background: #1e2c24;
             color: #fff;
             border: 1px solid #36503c;
-            padding: 8px 10px;
+            padding: 10px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 13px;
@@ -103,6 +95,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            transition: 0.2s;
         }
         .streamer-btn:hover {
             background: #53fc18;
@@ -121,39 +114,35 @@
 
     <div class="main-container">
         <div class="video-container">
-            <iframe id="player" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+            <iframe id="player" src="about:blank" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
         </div>
 
         <div class="streamers-section">
-            <div class="tabs">
-                <button class="tab-btn active" id="btn-mt" onclick="switchList('mt')">قائمة MT</button>
-                <button class="tab-btn" id="btn-top20" onclick="switchList('top20')">Top 20 Kick</button>
-            </div>
-            <div class="streamer-grid" id="streamerList"></div>
+            <div class="section-title">قائمة Mystery Town (mt)</div>
+            <div class="streamer-grid" id="mtList"></div>
+
+            <div class="section-title">أشهر ستريمرز Kick (Top 20)</div>
+            <div class="streamer-grid" id="top20List"></div>
         </div>
     </div>
 
     <script>
-        const lists = {
-            mt: [
-                "ABOKYAN", "Basamlv", "s6mito", "DrFx", "brof2", "Fahad", "Firas", 
-                "xEiD", "i3SW", "Majah92", "xlxwi", "OSAMAH", "AbuSwe7l", "tmnaa", 
-                "Vilon", "Azzz", "Abunoo7", "Muvxn", "SXB", "RpWy", "ALKRKY99", 
-                "vFernando", "JASER", "MortadaRadawy", "AhmedNemesis", "oPiiLz"
-            ],
-            top20: [
-                "xQc", "AdinRoss", "Amouranth", "Hikaru", "WestCOL", "Davooxeneize",
-                "absi", "SHERO", "bo3of", "oPiiLz", "abuswe7l", "3mr", "abu_abeer16",
-                "firas", "SXB", "Azza", "trainwreckstv", "roshtein", "mizkif", "yassuo"
-            ]
-        };
+        const mtStreamers = [
+            "ABOKYAN", "Basamlv", "s6mito", "DrFx", "brof2", "Fahad", "Firas", 
+            "xEiD", "i3SW", "Majah92", "xlxwi", "OSAMAH", "AbuSwe7l", "tmnaa", 
+            "Vilon", "Azzz", "Abunoo7", "Muvxn", "SXB", "RpWy", "ALKRKY99", 
+            "vFernando", "JASER", "MortadaRadawy", "AhmedNemesis", "oPiiLz"
+        ];
 
-        let currentTab = 'mt';
+        const top20Streamers = [
+            "xQc", "AdinRoss", "Amouranth", "Hikaru", "WestCOL", "Davooxeneize",
+            "absi", "SHERO", "bo3of", "oPiiLz", "abuswe7l", "3mr", "abu_abeer16",
+            "firas", "SXB", "Azza", "trainwreckstv", "roshtein", "mizkif", "yassuo"
+        ];
 
-        function renderList(listKey) {
-            const listContainer = document.getElementById('streamerList');
-            listContainer.innerHTML = '';
-            lists[listKey].forEach(name => {
+        function createButtons(list, containerId) {
+            const container = document.getElementById(containerId);
+            list.forEach(name => {
                 const btn = document.createElement('button');
                 btn.className = 'streamer-btn';
                 btn.innerText = name;
@@ -161,30 +150,29 @@
                     document.getElementById('channelName').value = name;
                     loadStream(name);
                 };
-                listContainer.appendChild(btn);
+                container.appendChild(btn);
             });
-        }
-
-        function switchList(tabKey) {
-            currentTab = tabKey;
-            document.getElementById('btn-mt').classList.toggle('active', tabKey === 'mt');
-            document.getElementById('btn-top20').classList.toggle('active', tabKey === 'top20');
-            renderList(tabKey);
         }
 
         function playChannel() {
             let channel = document.getElementById('channelName').value.trim();
-            if(!channel) return alert("يرجى إدخال اسم القناة أو اختيارها من القائمة!");
+            if(!channel) {
+                alert("يرجى إدخال اسم القناة أو اختيارها من القائمة!");
+                return;
+            }
             loadStream(channel);
         }
 
         function loadStream(channel) {
-            channel = channel.replace("https://kick.com/", "").replace("/", "");
-            document.getElementById('player').src = `https://player.kick.com/${channel}`;
+            // تنظيف الرابط في حال تم لصق رابط كامل
+            channel = channel.replace("https://kick.com/", "").replace("/", "").trim();
+            const playerFrame = document.getElementById('player');
+            playerFrame.src = `https://player.kick.com/${channel}?autoplay=true`;
         }
 
-        // التهيئة الأولية
-        renderList('mt');
+        // تشغيل البناء عند تحميل الصفحة
+        createButtons(mtStreamers, 'mtList');
+        createButtons(top20Streamers, 'top20List');
     </script>
 
 </body>
