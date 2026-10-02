@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QORT - بثوث و تسجيلات Kick</title>
+    <title>QORT - مكتبة بثوث Kick</title>
     <style>
         * { box-sizing: border-box; }
         body {
@@ -18,31 +18,12 @@
         }
         h1 { color: #53fc18; margin-bottom: 15px; text-align: center; font-size: 22px; }
         
-        .tab-buttons {
+        .search-box {
             display: flex;
             gap: 10px;
-            margin-bottom: 15px;
-        }
-        .tab-btn {
-            background: #1e2c24;
-            color: #fff;
-            border: 1px solid #36503c;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .tab-btn.active {
-            background: #53fc18;
-            color: #000;
-        }
-
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
             width: 100%;
             max-width: 1000px;
+            margin-bottom: 15px;
         }
         input {
             flex: 1;
@@ -60,215 +41,229 @@
             font-weight: bold;
             font-size: 15px;
             cursor: pointer;
+            background: #53fc18;
+            color: #000;
         }
-        .action-btn { background: #53fc18; color: #000; }
-        .chat-toggle-btn { background: #1e2c24; color: #53fc18; border: 1px solid #53fc18; }
 
         .main-container {
             display: flex;
-            flex-direction: column;
             gap: 15px;
             width: 100%;
             max-width: 1000px;
-        }
-        .player-wrapper {
-            display: flex;
-            gap: 15px;
-            width: 100%;
-            height: 500px;
+            height: 520px;
         }
         .video-container {
-            flex: 1;
+            flex: 2;
             height: 100%;
             background: #000;
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid #28382c;
-        }
-        .chat-container {
-            width: 320px;
-            height: 100%;
-            background: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #28382c;
+            display: flex;
+            flex-direction: column;
         }
         iframe { width: 100%; height: 100%; border: none; }
 
-        .download-box {
-            display: none;
+        /* قائمة البثوث المسجلة */
+        .vods-container {
+            flex: 1;
+            height: 100%;
+            background: #131b18;
+            border-radius: 12px;
+            border: 1px solid #28382c;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        .vods-header {
+            color: #53fc18;
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #28382c;
+            margin-bottom: 10px;
+        }
+        .vods-list {
+            overflow-y: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .vod-card {
+            background: #1e2c24;
+            border: 1px solid #36503c;
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .vod-card:hover { border-color: #53fc18; background: #25382e; }
+        .vod-title { font-size: 13px; font-weight: bold; color: #fff; margin-bottom: 5px; }
+        .vod-meta { font-size: 11px; color: #888; display: flex; justify-content: space-between; }
+
+        /* منطقة خيارات التنزيل والرابط */
+        .download-bar {
             background: #131b18;
             border: 1px solid #53fc18;
             border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-        }
-        .download-link {
-            color: #53fc18;
-            word-break: break-all;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-block;
+            padding: 10px;
             margin-top: 10px;
+            width: 100%;
+            max-width: 1000px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
         }
+        .download-bar a { color: #53fc18; font-weight: bold; text-decoration: none; }
 
         .streamers-section {
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 15px;
             background: #131b18;
             border: 1px solid #28382c;
             border-radius: 12px;
             padding: 15px;
         }
-        .section-title { color: #53fc18; font-size: 18px; margin-bottom: 10px; border-bottom: 1px solid #28382c; padding-bottom: 5px; }
-        .streamer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
-        .streamer-btn { background: #1e2c24; color: #fff; border: 1px solid #36503c; padding: 10px; border-radius: 6px; cursor: pointer; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .streamer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
+        .streamer-btn { background: #1e2c24; color: #fff; border: 1px solid #36503c; padding: 8px; border-radius: 6px; cursor: pointer; text-align: center; }
 
         @media (max-width: 768px) {
-            .player-wrapper { flex-direction: column; height: auto; }
+            .main-container { flex-direction: column; height: auto; }
             .video-container { height: 300px; }
-            .chat-container { width: 100%; height: 400px; }
+            .vods-container { height: 300px; }
         }
     </style>
 </head>
 <body>
 
-    <h1>🎬 QORT - بثوث وتسجيلات Kick</h1>
+    <h1>🎬 QORT - شاشة البث المباشر وبثوث الستريمر</h1>
 
-    <div class="tab-buttons">
-        <button class="tab-btn active" id="tabLive" onclick="switchMode('live')">🔴 البث المباشر</button>
-        <button class="tab-btn" id="tabVod" onclick="switchMode('vod')">📁 جلب وتحميل بث مسجل (VOD)</button>
-    </div>
-
-    <!-- قسم البث المباشر -->
-    <div id="liveControls" class="controls">
-        <input type="text" id="channelName" placeholder="اكتب اسم القناة..." />
-        <button class="action-btn" onclick="playChannel()">تشغيل</button>
-        <button class="chat-toggle-btn" id="toggleChatBtn" onclick="toggleChat()">💬 إخفاء الشات</button>
-    </div>
-
-    <!-- قسم جلب الفيديو المسجل -->
-    <div id="vodControls" class="controls" style="display: none;">
-        <input type="text" id="vodUrl" placeholder="أدخل رابط البث المسجل (مثال: https://kick.com/xqc/videos/...)" />
-        <button class="action-btn" onclick="fetchVod()">جلب وتحميل</button>
+    <div class="search-box">
+        <input type="text" id="channelInput" placeholder="أدخل اسم الستريمر/اليوتيوبر..." />
+        <button onclick="loadChannelData()">جلب البثوث</button>
     </div>
 
     <div class="main-container">
-        <div class="player-wrapper">
-            <div class="video-container">
-                <iframe id="player" src="about:blank" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+        <!-- شاشة المشغل الرئيسي -->
+        <div class="video-container">
+            <iframe id="mainPlayer" src="about:blank" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        </div>
+
+        <!-- قائمة البثوث المسجلة (VODs) -->
+        <div class="vods-container">
+            <div class="vods-header" id="vodsTitle">📁 البثوث المسجلة</div>
+            <div class="vods-list" id="vodsList">
+                <div style="color: #666; text-align: center; font-size: 13px; margin-top: 20px;">اختر أو ابحث عن ستريمر لعرض جميع بثوثه المسجلة هنا</div>
             </div>
-            <div class="chat-container" id="chatBox">
-                <iframe id="chatPlayer" src="about:blank"></iframe>
-            </div>
         </div>
+    </div>
 
-        <div id="downloadBox" class="download-box">
-            <div style="color: #fff;">✅ تم جلب ملف البث بنجاح:</div>
-            <a id="downloadBtn" href="#" target="_blank" class="download-link">⬇️ اضغط هنا لتنزيل الفيديو / فتح رابط الـ Stream Direct</a>
+    <!-- شريط الرابط والتنزيل المباشر للبث المحدد -->
+    <div class="download-bar" id="downloadBar">
+        <span id="selectedVodText" style="font-size: 13px;"></span>
+        <div>
+            <button onclick="copyVodLink()" style="padding: 6px 12px; font-size: 12px; background: #36503c; color: #fff;">📋 نسخ الرابط</button>
+            <a id="downloadBtn" href="#" target="_blank" style="margin-right: 10px;">⬇️ تنزيل البث (MP4)</a>
         </div>
+    </div>
 
-        <div class="streamers-section" id="streamersSection">
-            <div class="section-title">قائمة Mystery Town (mt)</div>
-            <div class="streamer-grid" id="mtList"></div>
-
-            <div class="section-title" style="margin-top: 15px;">أشهر ستريمرز Kick (Top 20)</div>
-            <div class="streamer-grid" id="top20List"></div>
-        </div>
+    <div class="streamers-section">
+        <div style="color: #53fc18; margin-bottom: 10px; font-weight: bold;">اختر ستريمر سريع:</div>
+        <div class="streamer-grid" id="fastList"></div>
     </div>
 
     <script>
         const WORKER_URL = "https://sweet-tooth-0a92.markbrabos010.workers.dev/";
+        const streamers = ["ABOKYAN", "Basamlv", "s6mito", "DrFx", "brof2", "Fahad", "xEiD", "SXB", "xQc", "AdinRoss"];
+        let currentVodUrl = "";
 
-        const mtStreamers = ["ABOKYAN", "Basamlv", "s6mito", "DrFx", "brof2", "Fahad", "Firas", "xEiD", "i3SW", "Majah92", "xlxwi", "OSAMAH", "AbuSwe7l", "tmnaa", "Vilon", "Azzz", "Abunoo7", "Muvxn", "SXB", "RpWy", "ALKRKY99", "vFernando", "JASER", "MortadaRadawy", "AhmedNemesis", "oPiiLz"];
-        const top20Streamers = ["xQc", "AdinRoss", "Amouranth", "Hikaru", "WestCOL", "Davooxeneize", "absi", "SHERO", "bo3of", "oPiiLz", "abuswe7l", "3mr", "abu_abeer16", "firas", "SXB", "Azza", "trainwreckstv", "roshtein", "mizkif", "yassuo"];
+        // إنشاء أزرار الاختيار السريع
+        const fastListContainer = document.getElementById('fastList');
+        streamers.forEach(name => {
+            const btn = document.createElement('button');
+            btn.className = 'streamer-btn';
+            btn.innerText = name;
+            btn.onclick = () => {
+                document.getElementById('channelInput').value = name;
+                loadChannelData();
+            };
+            fastListContainer.appendChild(btn);
+        });
 
-        let currentMode = 'live';
-        let isChatVisible = true;
+        async function loadChannelData() {
+            let channel = document.getElementById('channelInput').value.trim();
+            if (!channel) return alert("يرجى إدخال اسم الستريمر!");
 
-        function switchMode(mode) {
-            currentMode = mode;
-            if (mode === 'live') {
-                document.getElementById('tabLive').classList.add('active');
-                document.getElementById('tabVod').classList.remove('active');
-                document.getElementById('liveControls').style.display = 'flex';
-                document.getElementById('vodControls').style.display = 'none';
-                document.getElementById('chatBox').style.display = isChatVisible ? 'block' : 'none';
-                document.getElementById('toggleChatBtn').style.display = 'inline-block';
-                document.getElementById('streamersSection').style.display = 'block';
-                document.getElementById('downloadBox').style.display = 'none';
-            } else {
-                document.getElementById('tabVod').classList.add('active');
-                document.getElementById('tabLive').classList.remove('active');
-                document.getElementById('vodControls').style.display = 'flex';
-                document.getElementById('liveControls').style.display = 'none';
-                document.getElementById('chatBox').style.display = 'none';
-                document.getElementById('toggleChatBtn').style.display = 'none';
-                document.getElementById('streamersSection').style.display = 'none';
-            }
-        }
-
-        function createButtons(list, containerId) {
-            const container = document.getElementById(containerId);
-            list.forEach(name => {
-                const btn = document.createElement('button');
-                btn.className = 'streamer-btn';
-                btn.innerText = name;
-                btn.onclick = () => {
-                    document.getElementById('channelName').value = name;
-                    loadStream(name);
-                };
-                container.appendChild(btn);
-            });
-        }
-
-        function playChannel() {
-            let channel = document.getElementById('channelName').value.trim();
-            if(!channel) return alert("يرجى إدخال اسم القناة!");
-            loadStream(channel);
-        }
-
-        function loadStream(channel) {
             channel = channel.replace("https://kick.com/", "").replace("/", "").trim();
-            document.getElementById('player').src = `https://player.kick.com/${channel}`;
-            document.getElementById('chatPlayer').src = `https://kick.com/popout/${channel}/chat`;
-        }
 
-        function fetchVod() {
-            let url = document.getElementById('vodUrl').value.trim();
-            if(!url) return alert("يرجى إدخال رابط البث المسجل!");
+            // 1. تشغيل البث المباشر للقناة في الشاشة الرئيسية
+            document.getElementById('mainPlayer').src = `https://player.kick.com/${channel}`;
+            document.getElementById('vodsTitle').innerText = `📁 بثوث ${channel} المسجلة`;
+            
+            const vodsList = document.getElementById('vodsList');
+            vodsList.innerHTML = `<div style="color: #888; text-align: center;">جاري جلب البثوث المسجلة...</div>`;
 
-            let videoId = url.split('/videos/')[1] || url.split('/video/')[1];
-            if (videoId) {
-                // 1. تشغيل الفيديو عبر مشغل Kick الرسمية
-                document.getElementById('player').src = `https://player.kick.com/video/${videoId}`;
-                
-                // 2. إظهار خيار التنزيل المباشر
-                const downloadBox = document.getElementById('downloadBox');
-                const downloadBtn = document.getElementById('downloadBtn');
-                
-                downloadBtn.href = `https://kicklet.app/vod-downloader`;
-                downloadBtn.innerText = "⬇️ اضغط هنا لتنزيل فيديو البث المسجل مباشرة بصيغة MP4";
-                downloadBox.style.display = "block";
-            } else {
-                alert("تأكد من إدخال رابط فيديو مسجل صحيح من Kick!");
+            try {
+                // 2. جلب قائمة الفيديوهات المسجلة عبر الـ Worker الخاص بك
+                const response = await fetch(`${WORKER_URL}?url=https://kick.com/api/v2/channels/${channel}/videos`);
+                const videos = await response.json();
+
+                vodsList.innerHTML = "";
+
+                if (!videos || videos.length === 0) {
+                    vodsList.innerHTML = `<div style="color: #888; text-align: center;">لا توجد بثوث مسجلة متاحة لهذا الستريمر.</div>`;
+                    return;
+                }
+
+                // 3. عرض قائمة البثوث المسجلة
+                videos.forEach((vod, index) => {
+                    const vodCard = document.createElement('div');
+                    vodCard.className = 'vod-card';
+                    
+                    const title = vod.session_title || `بث مسجل #${index + 1}`;
+                    const date = vod.created_at ? vod.created_at.split('T')[0] : '';
+                    const duration = vod.duration ? Math.round(vod.duration / 60000) + ' دقيقة' : '';
+                    const vodVideoId = vod.video ? vod.video.uuid : (vod.id || '');
+
+                    vodCard.innerHTML = `
+                        <div class="vod-title">${title}</div>
+                        <div class="vod-meta">
+                            <span>📅 ${date}</span>
+                            <span>⏱️️ ${duration}</span>
+                        </div>
+                    `;
+
+                    vodCard.onclick = () => playVod(vodVideoId, title, channel);
+                    vodsList.appendChild(vodCard);
+                });
+
+            } catch (err) {
+                console.error(err);
+                vodsList.innerHTML = `<div style="color: #ff4444; text-align: center;">عذراً، تعذر جلب قائمة البثوث المسجلة.</div>`;
             }
         }
 
-        function toggleChat() {
-            const chatBox = document.getElementById('chatBox');
-            const toggleBtn = document.getElementById('toggleChatBtn');
-            if (isChatVisible) {
-                chatBox.style.display = 'none';
-                toggleBtn.innerText = '💬 إظهار الشات';
-                isChatVisible = false;
-            } else {
-                chatBox.style.display = 'block';
-                toggleBtn.innerText = '💬 إخفاء الشات';
-                isChatVisible = true;
-            }
+        function playVod(videoId, title, channel) {
+            if (!videoId) return alert("تعذر العثور على معرف هذا الفيديو!");
+
+            // 1. تشغيل الفيديو المحدد داخل الشاشة
+            document.getElementById('mainPlayer').src = `https://player.kick.com/video/${videoId}`;
+
+            // 2. تجهيز روابط التحميل والنسخ
+            currentVodUrl = `https://kick.com/${channel}/videos/${videoId}`;
+            
+            document.getElementById('selectedVodText').innerText = `🎬 المحدد: ${title}`;
+            document.getElementById('downloadBtn').href = `https://kicklet.app/vod-downloader`;
+            document.getElementById('downloadBar').style.display = 'flex';
         }
 
-        createButtons(mtStreamers, 'mtList');
-        createButtons(top20Streamers, 'top20List');
+        function copyVodLink() {
+            if (!currentVodUrl) return;
+            navigator.clipboard.writeText(currentVodUrl);
+            alert("تم نسخ رابط البث المسجل بنجاح!");
+        }
     </script>
 </body>
 </html>
