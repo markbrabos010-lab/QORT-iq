@@ -2,8 +2,14 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>QORT — بثوث Kick • تسجيل • كليبات</title>
+<!-- إعدادات PWA -->
+<link rel="manifest" href='data:application/manifest+json,{"name":"QORT","short_name":"QORT","start_url":".","display":"standalone","background_color":"#070b09","theme_color":"#53fc18","icons":[{"src":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=","sizes":"192x192","type":"image/png"}]}'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#070b09">
+
 <style>
 :root{
   --bg:#070b09; --panel:#0f1713; --panel2:#141f19; --line:#1f2f27;
@@ -50,29 +56,39 @@ body{
 .btn.rec:hover{background:rgba(255,60,60,.18)}
 .btn.rec.active{background:#ff2d2d;color:#fff;border-color:#ff2d2d;animation:pulse 1.4s infinite}
 
-/* Stage */
+/* Layout Toggles */
+.layout-toggles{display:flex;gap:6px;background:var(--panel);padding:4px;border-radius:12px;border:1px solid var(--line);}
+.layout-btn{background:transparent;border:0;color:var(--muted);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;transition:0.2s;}
+.layout-btn.active{background:var(--panel2);color:var(--green);}
+
+/* Stage & Multi-Stream */
 .stage{ display:grid;grid-template-columns:1fr 340px;gap:14px; margin-top:14px;align-items:stretch;}
 .stage.no-chat{grid-template-columns:1fr}
-.video-card{ display:flex;flex-direction:column; background:#000;border:1px solid var(--line);border-radius:var(--radius); overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.6);}
-.video-frame{position:relative;aspect-ratio:16/9;background:#000}
-.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-grid{display:grid;gap:8px;width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.6);}
+.video-grid.layout-1{grid-template-columns:1fr;}
+.video-grid.layout-2{grid-template-columns:1fr 1fr;}
+.video-grid.layout-4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;}
+.video-slot{position:relative;background:#000;overflow:hidden;}
+.video-slot iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
 .video-foot{ display:flex;align-items:center;justify-content:space-between;gap:10px; padding:10px 14px;background:linear-gradient(180deg,#0d1611,#0a120e); border-top:1px solid var(--line);font-size:13px;color:var(--muted);}
 .chat-card{ background:#000;border:1px solid var(--line);border-radius:var(--radius); overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.6);min-height:320px;}
 .chat-card iframe{width:100%;height:100%;border:0;display:block}
 
-/* Panels */
+/* Panels & Streamers */
 .panel{ background:linear-gradient(180deg,var(--panel),#0b1310); border:1px solid var(--line);border-radius:var(--radius); padding:16px;margin-top:16px; box-shadow:0 10px 30px rgba(0,0,0,.35);}
 .panel-head{ display:flex;align-items:center;justify-content:space-between;gap:10px; border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:14px;}
 .panel-head h2{margin:0;font-size:17px;color:var(--green);font-weight:800}
 .streamer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:9px}
 .streamer-item{ display:flex;align-items:center;overflow:hidden; background:var(--panel2);border:1px solid var(--line);border-radius:10px; transition:.18s;}
 .streamer-item:hover{border-color:var(--green);transform:translateY(-2px)}
-.streamer-btn{ flex:1;background:transparent;border:0;color:var(--text); padding:11px 9px;font-size:13px;font-family:inherit;font-weight:600; cursor:pointer;text-align:center; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.streamer-btn{ flex:1;background:transparent;border:0;color:var(--text); padding:11px 9px;font-size:13px;font-family:inherit;font-weight:600; cursor:pointer;text-align:center; white-space:nowrap;overflow:hidden;text-overflow:ellipsis; display:flex; align-items:center; gap:6px; justify-content:center;}
 .streamer-item:hover .streamer-btn{color:var(--green)}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#3b4a42;flex-shrink:0;}
+.live-dot.on{background:#ff2d2d;box-shadow:0 0 8px #ff2d2d;animation:pulse 1.5s infinite;}
 .remove-btn{ background:transparent;border:0;color:#5d6f65; padding:11px 10px;font-size:12px;cursor:pointer;transition:.15s;}
 .remove-btn:hover{color:#fff;background:var(--danger)}
 
-/* Clips */
+/* Clips Grid */
 .clips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
 .clip-card{ background:var(--panel2);border:1px solid var(--line);border-radius:14px; overflow:hidden;transition:.2s;}
 .clip-card:hover{border-color:#2f5240;transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.5)}
@@ -129,6 +145,7 @@ input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none;width:17px;heig
   .logo{font-size:20px} .tagline{display:none}
   .searchbar input[type="text"]{min-width:100%}
   .btn{flex:1}
+  .layout-toggles{width:100%; justify-content:space-between;}
 }
 </style>
 </head>
@@ -143,22 +160,35 @@ input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none;width:17px;heig
 </header>
 
 <main class="wrap">
+  <!-- شريط التحكم -->
   <section class="searchbar">
     <input type="text" id="channelName" placeholder="اكتب اسم القناة أو الصق رابط kick.com/...">
     <button class="btn primary" onclick="playChannel()">▶ تشغيل</button>
     <button class="btn ghost" onclick="addFavorite()">＋ مفضلة</button>
+    
+    <!-- أزرار تخطيط الشاشة (Multi-Stream) -->
+    <div class="layout-toggles">
+      <button class="layout-btn active" onclick="setLayout(1)">1 شاشة</button>
+      <button class="layout-btn" onclick="setLayout(2)">2 شاشات</button>
+      <button class="layout-btn" onclick="setLayout(4)">4 شاشات</button>
+    </div>
+
     <button class="btn ghost" id="toggleChatBtn" onclick="toggleChat()">💬 إخفاء الشات</button>
     
+    <!-- أزرار التسجيل و Auto-Clip -->
     <button class="btn rec" id="recBtn" onclick="toggleRecording()">● تسجيل</button>
+    <button class="btn ghost" id="autoClipBtn" onclick="toggleAutoClip()">⏺ Auto-Clip (30s)</button>
+    <button class="btn primary" id="saveAutoClipBtn" onclick="saveAutoClip()" style="display:none;">✂️ حفظ آخر 30s</button>
     
     <button class="btn ghost" onclick="document.getElementById('videoUpload').click()">⬆ رفع فيديو</button>
     <input type="file" id="videoUpload" accept="video/*" style="display:none;" onchange="handleVideoUpload(event)">
   </section>
 
+  <!-- المشغل + الشات -->
   <section class="stage" id="stage">
-    <div class="video-card">
-      <div class="video-frame">
-        <iframe id="player" src="about:blank" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+    <div>
+      <div class="video-grid layout-1" id="videoGrid">
+        <!-- يتم توليد المشغلات هنا ديناميكياً -->
       </div>
       <div class="video-foot">
         <span id="nowPlaying">لم يتم اختيار قناة بعد</span>
@@ -219,6 +249,7 @@ input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none;width:17px;heig
   </div>
 </div>
 
+<!-- مودال مشاهدة كليب -->
 <div class="modal" id="viewModal">
   <div class="modal-card">
     <div class="modal-head">
@@ -241,11 +272,18 @@ input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none;width:17px;heig
 <div class="toasts" id="toasts"></div>
 
 <script>
+// إعداد PWA (Service Worker بسيط جداً لتفعيل التثبيت)
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('data:text/javascript,self.addEventListener("fetch",e=>{})').catch(()=>{});
+}
+
 const topStreamers = ["Fahad", "SXB", "xEiD", "ABOKYAN", "xQc", "AdinRoss", "Amouranth", "Hikaru", "WestCOL", "bo3of", "oPiiLz", "abuswe7l"];
 let isChatVisible = true;
-let currentChannel = "";
+let currentLayout = 1;
+let activeChannels = [];
 
 document.addEventListener("DOMContentLoaded", () => {
+  initLayout();
   renderFavorites(); renderTopList(); renderClips();
 });
 
@@ -260,25 +298,67 @@ function toast(msg, type = "ok") {
   }, 3500);
 }
 
-function cleanChannel(raw) { return raw.replace(/^https?:\/\/(www\.)?kick\.com\//i, "").replace(/^\/+/, "").replace(/\/.*$/, "").trim(); }
+// --- 1. تعدد الشاشات (Multi-Stream) ---
+function setLayout(num) {
+  currentLayout = num;
+  document.querySelectorAll('.layout-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector(`.layout-btn[onclick="setLayout(${num})"]`).classList.add('active');
+  initLayout();
+}
+
+function initLayout() {
+  const grid = document.getElementById("videoGrid");
+  grid.className = `video-grid layout-${currentLayout}`;
+  grid.innerHTML = "";
+  
+  // إعادة تعيين القنوات النشطة إذا قل العدد
+  if (activeChannels.length > currentLayout) activeChannels = activeChannels.slice(0, currentLayout);
+
+  for (let i = 0; i < currentLayout; i++) {
+    const slot = document.createElement("div");
+    slot.className = "video-slot";
+    slot.innerHTML = `<iframe src="${activeChannels[i] ? 'https://player.kick.com/' + activeChannels[i] : 'about:blank'}" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>`;
+    grid.appendChild(slot);
+  }
+  updateChatFrame();
+}
+
 function playChannel() {
   const raw = document.getElementById("channelName").value.trim();
   if (!raw) return toast("يرجى إدخال اسم القناة!", "err");
   loadStream(raw);
 }
+
 function loadStream(channel) {
   const name = cleanChannel(channel);
   if (!name) return toast("اسم القناة غير صالح", "err");
-  currentChannel = name;
-  document.getElementById("player").src = `https://player.kick.com/${name}`;
-  document.getElementById("chatPlayer").src = `https://kick.com/popout/${name}/chat`;
-  document.getElementById("nowPlaying").innerHTML = `تشغيل: <span style="color:#53fc18;font-weight:800">${name}</span>`;
+  
+  // إضافة القناة للشاشة الأولى أو للشاشة الفارغة
+  if (activeChannels.length < currentLayout) {
+    activeChannels.push(name);
+  } else {
+    activeChannels[0] = name; // استبدال الشاشة الأولى
+  }
+  
+  // تحديث الـ iframes
+  const iframes = document.querySelectorAll("#videoGrid iframe");
+  activeChannels.forEach((ch, i) => {
+    if (iframes[i]) iframes[i].src = `https://player.kick.com/${ch}`;
+  });
+
+  document.getElementById("nowPlaying").innerHTML = `تشغيل: <span style="color:#53fc18;font-weight:800">${activeChannels.join(" | ")}</span>`;
   document.getElementById("liveState").textContent = "● LIVE";
+  updateChatFrame();
 }
-function selectStreamer(name) {
-  document.getElementById("channelName").value = name;
-  loadStream(name);
+
+function updateChatFrame() {
+  if (activeChannels.length > 0) {
+    document.getElementById("chatPlayer").src = `https://kick.com/popout/${activeChannels[0]}/chat`;
+  } else {
+    document.getElementById("chatPlayer").src = `about:blank`;
+  }
 }
+
 function toggleChat() {
   isChatVisible = !isChatVisible;
   document.getElementById("chatBox").style.display = isChatVisible ? "" : "none";
@@ -286,6 +366,31 @@ function toggleChat() {
   document.getElementById("toggleChatBtn").textContent = isChatVisible ? "💬 إخفاء الشات" : "💬 إظهار الشات";
 }
 
+// --- 4. حالة الستريمر (Live Status) ---
+async function checkLiveStatus(name) {
+  try {
+    // استخدام وكيل CORS لتجنب مشاكل المتصفح
+    const res = await fetch(`https://api.allorigins.win/raw?url=https://kick.com/api/v2/channels/${name}`);
+    const data = await res.json();
+    return data.livestream !== null;
+  } catch (e) {
+    return false;
+  }
+}
+
+async function updateLiveDots() {
+  const allNames = [...new Set([...getFavorites(), ...topStreamers])];
+  for (const name of allNames) {
+    const isLive = await checkLiveStatus(name);
+    const dots = document.querySelectorAll(`.live-dot[data-channel="${name}"]`);
+    dots.forEach(dot => {
+      if (isLive) dot.classList.add('on');
+      else dot.classList.remove('on');
+    });
+  }
+}
+
+// --- 2. المفضلة ---
 function getFavorites() {
   try { return JSON.parse(localStorage.getItem("qort_favorites")) || ["Fahad", "SXB", "xEiD"]; }
   catch { return ["Fahad", "SXB", "xEiD"]; }
@@ -310,28 +415,91 @@ function renderFavorites() {
   c.innerHTML = favs.length ? "" : `<div class="empty">لا يوجد ستريمرز مفضلون.</div>`;
   favs.forEach(name => {
     const d = document.createElement("div"); d.className = "streamer-item";
-    d.innerHTML = `<button class="streamer-btn" onclick="selectStreamer('${esc(name)}')">${esc(name)}</button>
+    d.innerHTML = `<button class="streamer-btn" onclick="selectStreamer('${esc(name)}')"><span class="live-dot" data-channel="${esc(name)}"></span>${esc(name)}</button>
                    <button class="remove-btn" onclick="removeFavorite('${esc(name)}')">✕</button>`;
     c.appendChild(d);
   });
+  updateLiveDots();
 }
 function renderTopList() {
   const c = document.getElementById("topList"); c.innerHTML = "";
   topStreamers.forEach(name => {
     const d = document.createElement("div"); d.className = "streamer-item";
-    d.innerHTML = `<button class="streamer-btn" onclick="selectStreamer('${esc(name)}')">${esc(name)}</button>`;
+    d.innerHTML = `<button class="streamer-btn" onclick="selectStreamer('${esc(name)}')"><span class="live-dot" data-channel="${esc(name)}"></span>${esc(name)}</button>`;
     c.appendChild(d);
   });
+  updateLiveDots();
+}
+function selectStreamer(name) {
+  document.getElementById("channelName").value = name;
+  loadStream(name);
 }
 function esc(s) { return String(s).replace(/'/g, "\\'").replace(/</g, "&lt;"); }
+function cleanChannel(raw) { return raw.replace(/^https?:\/\/(www\.)?kick\.com\//i, "").replace(/^\/+/, "").replace(/\/.*$/, "").trim(); }
 
-function handleVideoUpload(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  openEditor(file);
-  e.target.value = '';
+// --- 3. Auto-Clip (ShadowPlay) ---
+let autoClipRecorder = null;
+let autoClipChunks = [];
+let isAutoClipping = false;
+
+async function toggleAutoClip() {
+  if (isAutoClipping) {
+    // إيقاف
+    isAutoClipping = false;
+    if (autoClipRecorder && autoClipRecorder.state !== "inactive") autoClipRecorder.stop();
+    if (autoClipStream) autoClipStream.getTracks().forEach(t => t.stop());
+    document.getElementById("autoClipBtn").textContent = "⏺ Auto-Clip (30s)";
+    document.getElementById("autoClipBtn").classList.remove("rec"); // تغيير اللون
+    document.getElementById("saveAutoClipBtn").style.display = "none";
+    toast("تم إيقاف التسجيل التلقائي.");
+    return;
+  }
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+    return toast("Auto-Clip غير مدعوم في متصفح الجوال. استخدم زر رفع فيديو.", "err");
+  }
+
+  try {
+    const stream = await navigator.mediaDevices.getDisplayMedia({
+      video: { frameRate: 30, width: { ideal: 1920 }, height: { ideal: 1080 } },
+      audio: true
+    });
+    
+    autoClipStream = stream;
+    autoClipChunks = [];
+    const mime = pickMime();
+    autoClipRecorder = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: 8_000_000 } : undefined);
+    
+    autoClipRecorder.ondataavailable = e => { 
+      if (e.data && e.data.size) {
+        autoClipChunks.push(e.data);
+        // الاحتفاظ بآخر 6 مقاطع فقط (كل مقطع 5 ثواني = 30 ثانية)
+        if (autoClipChunks.length > 6) autoClipChunks.shift();
+      }
+    };
+
+    // تسجيل مقاطع كل 5 ثواني
+    autoClipRecorder.start(5000);
+    isAutoClipping = true;
+    
+    document.getElementById("autoClipBtn").textContent = "⏹ إيقاف Auto-Clip";
+    document.getElementById("autoClipBtn").classList.add("rec");
+    document.getElementById("saveAutoClipBtn").style.display = "inline-flex";
+    
+    toast("بدأ Auto-Clip — سيتم حفظ آخر 30 ثانية عند الضغط على الزر الأخضر.");
+  } catch (err) {
+    if (err.name !== "NotAllowedError") toast("تعذر بدء Auto-Clip", "err");
+  }
 }
 
+let autoClipStream = null;
+function saveAutoClip() {
+  if (autoClipChunks.length === 0) return toast("لا يوجد فيديو محفوظ بعد، انتظر بضع ثوانٍ.", "err");
+  const blob = new Blob(autoClipChunks, { type: autoClipRecorder.mimeType || "video/webm" });
+  openEditor(blob);
+}
+
+// --- 5. التسجيل العادي (Normal Recording) ---
 let mediaRecorder = null, recChunks = [], recStream = null, recTimerInt = null, recStartedAt = 0, lastRecordingDuration = 0, isRecording = false;
 
 function pickMime() {
@@ -347,21 +515,17 @@ function toggleRecording() {
 
 async function startRecording() {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
-    return toast("التسجيل غير مدعوم في متصفح الجوال. يرجى استخدام زر (رفع فيديو) بدلاً من ذلك.", "err");
+    return toast("التسجيل غير مدعوم في متصفح الجوال. يرجى استخدام زر (رفع فيديو).", "err");
   }
 
   try {
     const stream = await navigator.mediaDevices.getDisplayMedia({
-      // [تحديث الجودة] رفع الإطارات إلى 60 وتحديد الدقة المطلوبة
       video: { frameRate: 60, width: { ideal: 1920 }, height: { ideal: 1080 } },
       audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
     });
     recStream = stream; recChunks = [];
     const mime = pickMime();
-    
-    // [تحديث الجودة] رفع معدل البت إلى 15 ميجابت (جودة عالية جداً)
     mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: 15_000_000 } : undefined);
-    
     mediaRecorder.ondataavailable = e => { if (e.data && e.data.size) recChunks.push(e.data); };
     mediaRecorder.onstop = handleRecordingStop;
     stream.getVideoTracks()[0].addEventListener("ended", () => { if (isRecording) stopRecording(); });
@@ -380,7 +544,6 @@ async function startRecording() {
       btn.textContent = `■ إيقاف ${formatTime(s)}`;
       document.getElementById("recPillText").textContent = `تسجيل ${formatTime(s)}`;
     }, 500);
-    toast("بدأ التسجيل بجودة عالية — أوقفه عند نهاية اللحظة ✂️");
   } catch (err) {
     if (err && err.name !== "NotAllowedError") toast("تعذّر بدء التسجيل", "err");
   }
@@ -407,6 +570,14 @@ function handleRecordingStop() {
   openEditor(blob);
 }
 
+function handleVideoUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  openEditor(file);
+  e.target.value = '';
+}
+
+// --- 6. محرر الكليب (Clip Editor) ---
 let editorBlob = null, editorUrl = null, editorDuration = 0, previewStopAt = null;
 
 async function openEditor(blob) {
@@ -484,10 +655,7 @@ function trimBlob(blob, start, end) {
         const stream = v.captureStream ? v.captureStream() : (v.mozCaptureStream ? v.mozCaptureStream() : null);
         if (!stream) { cleanup(); return reject(new Error("المتصفح لا يدعم القص")); }
         const mime = pickMime();
-        
-        // [تحديث الجودة] الحفاظ على جودة عالية عند القص (15 ميجابت)
         const rec = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: 15_000_000 } : undefined);
-        
         const chunks = [];
         rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
         rec.onstop = () => { cleanup(); resolve(new Blob(chunks, { type: rec.mimeType || mime || "video/webm" })); };
@@ -513,10 +681,10 @@ async function saveClip(shouldDownload) {
   if (e - s < 0.3) return toast("المدة قصيرة جداً!", "err");
   
   const nameInput = document.getElementById("clipName").value.trim();
-  const autoName = `كليب ${currentChannel || "Kick"} — ${new Date().toLocaleString("ar-EG")}`;
+  const autoName = `كليب ${activeChannels[0] || "Kick"} — ${new Date().toLocaleString("ar-EG")}`;
   const name = (nameInput || autoName).slice(0, 80);
 
-  showBusy("جاري معالجة الكليب بجودة عالية...");
+  showBusy("جاري معالجة الكليب...");
   try {
     const needTrim = s > 0.08 || Math.abs(e - editorDuration) > 0.35;
     const out = needTrim ? await trimBlob(editorBlob, s, e) : editorBlob;
@@ -527,7 +695,7 @@ async function saveClip(shouldDownload) {
     } else {
       showBusy("جاري حفظ الكليب...");
       const thumb = await makeThumb(out);
-      const clip = { id: (crypto.randomUUID ? crypto.randomUUID() : "c" + Date.now() + Math.random().toString(16).slice(2)), name, blob: out, thumb, duration: Math.round((e - s) * 10) / 10, size: out.size, createdAt: Date.now(), channel: currentChannel || "" };
+      const clip = { id: (crypto.randomUUID ? crypto.randomUUID() : "c" + Date.now() + Math.random().toString(16).slice(2)), name, blob: out, thumb, duration: Math.round((e - s) * 10) / 10, size: out.size, createdAt: Date.now(), channel: activeChannels[0] || "" };
       await dbPut(clip);
       await renderClips();
       toast("تم حفظ الكليب في المكتبة 🎞️");
@@ -558,6 +726,7 @@ async function makeThumb(blob) {
   } catch (e) { return ""; }
 }
 
+// --- 7. قاعدة البيانات (IndexedDB) ---
 const DB_NAME = "qort_db", STORE = "clips";
 function openDB() {
   return new Promise((resolve, reject) => {
@@ -624,6 +793,7 @@ async function deleteClip(id) {
   await dbDelete(id); await renderClips(); toast("تم حذف الكليب 🗑");
 }
 
+// أدوات مساعدة
 function formatTime(sec) { sec = Math.max(0, Math.round(sec || 0)); const m = Math.floor(sec / 60), s = sec % 60; return `${m}:${String(s).padStart(2, "0")}`; }
 function formatBytes(b) { if (!b) return "0 KB"; if (b < 1048576) return (b / 1024).toFixed(0) + " KB"; return (b / 1048576).toFixed(1) + " MB"; }
 function showBusy(text) { document.getElementById("busyText").textContent = text || "جاري المعالجة..."; document.getElementById("busy").classList.add("show"); }
