@@ -6,299 +6,128 @@
 <title>QORT — بثوث Kick • تسجيل • كليبات</title>
 <style>
 :root{
-  --bg:#070b09;
-  --panel:#0f1713;
-  --panel2:#141f19;
-  --line:#1f2f27;
-  --green:#53fc18;
-  --green2:#2ee06a;
-  --text:#e9f6ee;
-  --muted:#7d9488;
-  --danger:#ff5a5a;
-  --radius:16px;
+  --bg:#070b09; --panel:#0f1713; --panel2:#141f19; --line:#1f2f27;
+  --green:#53fc18; --green2:#2ee06a; --text:#e9f6ee; --muted:#7d9488;
+  --danger:#ff5a5a; --radius:16px;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
-  margin:0;
-  background:
-    radial-gradient(1200px 600px at 100% -10%, rgba(83,252,24,.13), transparent 60%),
-    radial-gradient(900px 500px at -10% 5%, rgba(46,224,106,.08), transparent 60%),
-    var(--bg);
-  color:var(--text);
-  font-family:"Segoe UI",Tahoma,Arial,sans-serif;
-  min-height:100vh;
+  margin:0; background: radial-gradient(1200px 600px at 100% -10%, rgba(83,252,24,.13), transparent 60%), radial-gradient(900px 500px at -10% 5%, rgba(46,224,106,.08), transparent 60%), var(--bg);
+  color:var(--text); font-family:"Segoe UI",Tahoma,Arial,sans-serif; min-height:100vh;
 }
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-track{background:#0a120e}
 ::-webkit-scrollbar-thumb{background:#22382c;border-radius:10px}
 ::-webkit-scrollbar-thumb:hover{background:#2f5240}
 
-/* ===== Header ===== */
+/* Header */
 .topbar{
-  position:sticky;top:0;z-index:50;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:12px 20px;
-  background:rgba(7,11,9,.75);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:50; display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:12px 20px; background:rgba(7,11,9,.75); backdrop-filter:blur(14px); border-bottom:1px solid var(--line);
 }
 .brand{display:flex;align-items:center;gap:12px}
-.logo{
-  font-size:24px;font-weight:900;letter-spacing:2px;
-  background:linear-gradient(135deg,#53fc18,#2ee06a 60%,#18fcd6);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 0 14px rgba(83,252,24,.35));
-}
+.logo{font-size:24px;font-weight:900;letter-spacing:2px; background:linear-gradient(135deg,#53fc18,#2ee06a 60%,#18fcd6); -webkit-background-clip:text;background-clip:text;color:transparent; filter:drop-shadow(0 0 14px rgba(83,252,24,.35));}
 .tagline{font-size:12px;color:var(--muted)}
-.rec-pill{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:13px;font-weight:700;color:var(--muted);
-  background:var(--panel);border:1px solid var(--line);
-  padding:8px 14px;border-radius:999px;
-}
+.rec-pill{ display:inline-flex;align-items:center;gap:8px; font-size:13px;font-weight:700;color:var(--muted); background:var(--panel);border:1px solid var(--line); padding:8px 14px;border-radius:999px;}
 .rec-pill .dot{width:9px;height:9px;border-radius:50%;background:#3b4a42}
 .rec-pill.on{color:#ff7676;border-color:rgba(255,60,60,.45);background:rgba(255,45,45,.1)}
 .rec-pill.on .dot{background:#ff2d2d;animation:pulse 1.2s infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,45,45,.7)}50%{box-shadow:0 0 0 8px rgba(255,45,45,0)}}
 
-/* ===== Layout ===== */
 .wrap{max-width:1280px;margin:0 auto;padding:18px 16px 60px}
 
-/* ===== Controls ===== */
-.searchbar{
-  display:flex;gap:10px;flex-wrap:wrap;align-items:center;
-  background:linear-gradient(180deg,var(--panel),#0c1410);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:12px;
-  box-shadow:0 10px 30px rgba(0,0,0,.45);
-}
-.searchbar input{
-  flex:1;min-width:220px;
-  padding:13px 16px;border-radius:12px;
-  border:1px solid var(--line);
-  background:#0a120e;color:var(--text);
-  font-size:15px;font-family:inherit;outline:none;
-  transition:.18s;
-}
-.searchbar input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(83,252,24,.12)}
-.searchbar input::placeholder{color:#5a6f64}
-
-.btn{
-  display:inline-flex;align-items:center;gap:7px;justify-content:center;
-  padding:12px 16px;border-radius:12px;
-  border:1px solid transparent;
-  background:var(--panel2);color:var(--text);
-  font-weight:700;font-size:14px;font-family:inherit;
-  cursor:pointer;transition:.18s;white-space:nowrap;
-}
+/* Controls */
+.searchbar{ display:flex;gap:10px;flex-wrap:wrap;align-items:center; background:linear-gradient(180deg,var(--panel),#0c1410); border:1px solid var(--line); border-radius:var(--radius); padding:12px; box-shadow:0 10px 30px rgba(0,0,0,.45);}
+.searchbar input[type="text"]{ flex:1;min-width:220px; padding:13px 16px;border-radius:12px; border:1px solid var(--line); background:#0a120e;color:var(--text); font-size:15px;font-family:inherit;outline:none; transition:.18s;}
+.searchbar input[type="text"]:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(83,252,24,.12)}
+.btn{ display:inline-flex;align-items:center;gap:7px;justify-content:center; padding:12px 16px;border-radius:12px; border:1px solid transparent; background:var(--panel2);color:var(--text); font-weight:700;font-size:14px;font-family:inherit; cursor:pointer;transition:.18s;white-space:nowrap;}
 .btn:hover{transform:translateY(-1px)}
-.btn:active{transform:translateY(0)}
-.btn.primary{
-  background:linear-gradient(135deg,#53fc18,#2ee06a);
-  color:#04120a;box-shadow:0 8px 22px rgba(83,252,24,.22);
-}
-.btn.primary:hover{box-shadow:0 10px 28px rgba(83,252,24,.35)}
+.btn.primary{ background:linear-gradient(135deg,#53fc18,#2ee06a); color:#04120a;box-shadow:0 8px 22px rgba(83,252,24,.22);}
 .btn.ghost{background:transparent;border-color:var(--line)}
 .btn.ghost:hover{border-color:var(--green);color:var(--green)}
 .btn.rec{background:rgba(255,60,60,.1);border-color:rgba(255,60,60,.35);color:#ff6b6b}
 .btn.rec:hover{background:rgba(255,60,60,.18)}
 .btn.rec.active{background:#ff2d2d;color:#fff;border-color:#ff2d2d;animation:pulse 1.4s infinite}
-.btn.small{padding:8px 12px;font-size:12.5px;border-radius:10px}
 
-/* ===== Stage ===== */
-.stage{
-  display:grid;grid-template-columns:1fr 340px;gap:14px;
-  margin-top:14px;align-items:stretch;
-}
+/* Stage */
+.stage{ display:grid;grid-template-columns:1fr 340px;gap:14px; margin-top:14px;align-items:stretch;}
 .stage.no-chat{grid-template-columns:1fr}
-.video-card{
-  display:flex;flex-direction:column;
-  background:#000;border:1px solid var(--line);border-radius:var(--radius);
-  overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.6);
-}
+.video-card{ display:flex;flex-direction:column; background:#000;border:1px solid var(--line);border-radius:var(--radius); overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.6);}
 .video-frame{position:relative;aspect-ratio:16/9;background:#000}
 .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.video-foot{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  padding:10px 14px;background:linear-gradient(180deg,#0d1611,#0a120e);
-  border-top:1px solid var(--line);font-size:13px;color:var(--muted);
-}
-.video-foot .live{color:var(--green);font-weight:800}
-.chat-card{
-  background:#000;border:1px solid var(--line);border-radius:var(--radius);
-  overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.6);min-height:320px;
-}
+.video-foot{ display:flex;align-items:center;justify-content:space-between;gap:10px; padding:10px 14px;background:linear-gradient(180deg,#0d1611,#0a120e); border-top:1px solid var(--line);font-size:13px;color:var(--muted);}
+.chat-card{ background:#000;border:1px solid var(--line);border-radius:var(--radius); overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.6);min-height:320px;}
 .chat-card iframe{width:100%;height:100%;border:0;display:block}
 
-/* ===== Panels ===== */
-.panel{
-  background:linear-gradient(180deg,var(--panel),#0b1310);
-  border:1px solid var(--line);border-radius:var(--radius);
-  padding:16px;margin-top:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.35);
-}
-.panel-head{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:14px;
-}
+/* Panels */
+.panel{ background:linear-gradient(180deg,var(--panel),#0b1310); border:1px solid var(--line);border-radius:var(--radius); padding:16px;margin-top:16px; box-shadow:0 10px 30px rgba(0,0,0,.35);}
+.panel-head{ display:flex;align-items:center;justify-content:space-between;gap:10px; border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:14px;}
 .panel-head h2{margin:0;font-size:17px;color:var(--green);font-weight:800}
-.panel-head .hint{font-size:12px;color:var(--muted)}
-
-/* ===== Streamer chips ===== */
 .streamer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:9px}
-.streamer-item{
-  display:flex;align-items:center;overflow:hidden;
-  background:var(--panel2);border:1px solid var(--line);border-radius:10px;
-  transition:.18s;
-}
+.streamer-item{ display:flex;align-items:center;overflow:hidden; background:var(--panel2);border:1px solid var(--line);border-radius:10px; transition:.18s;}
 .streamer-item:hover{border-color:var(--green);transform:translateY(-2px)}
-.streamer-btn{
-  flex:1;background:transparent;border:0;color:var(--text);
-  padding:11px 9px;font-size:13px;font-family:inherit;font-weight:600;
-  cursor:pointer;text-align:center;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
+.streamer-btn{ flex:1;background:transparent;border:0;color:var(--text); padding:11px 9px;font-size:13px;font-family:inherit;font-weight:600; cursor:pointer;text-align:center; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .streamer-item:hover .streamer-btn{color:var(--green)}
-.remove-btn{
-  background:transparent;border:0;color:#5d6f65;
-  padding:11px 10px;font-size:12px;cursor:pointer;transition:.15s;
-}
+.remove-btn{ background:transparent;border:0;color:#5d6f65; padding:11px 10px;font-size:12px;cursor:pointer;transition:.15s;}
 .remove-btn:hover{color:#fff;background:var(--danger)}
-.empty{color:#4e6157;font-size:13px;padding:6px 2px}
 
-/* ===== Clips ===== */
+/* Clips */
 .clips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-.clip-card{
-  background:var(--panel2);border:1px solid var(--line);border-radius:14px;
-  overflow:hidden;transition:.2s;
-}
+.clip-card{ background:var(--panel2);border:1px solid var(--line);border-radius:14px; overflow:hidden;transition:.2s;}
 .clip-card:hover{border-color:#2f5240;transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.5)}
-.clip-thumb{
-  position:relative;aspect-ratio:16/9;background:#0a120e center/cover no-repeat;
-  display:flex;align-items:center;justify-content:center;
-}
-.clip-thumb .play{
-  width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;
-  background:rgba(83,252,24,.9);color:#04120a;font-size:18px;
-  display:flex;align-items:center;justify-content:center;
-  transition:.18s;padding-right:4px;
-}
+.clip-thumb{ position:relative;aspect-ratio:16/9;background:#0a120e center/cover no-repeat; display:flex;align-items:center;justify-content:center;}
+.clip-thumb .play{ width:46px;height:46px;border-radius:50%;border:0;cursor:pointer; background:rgba(83,252,24,.9);color:#04120a;font-size:18px; display:flex;align-items:center;justify-content:center; transition:.18s;padding-right:4px;}
 .clip-thumb .play:hover{transform:scale(1.1);background:var(--green)}
-.clip-dur{
-  position:absolute;bottom:8px;left:8px;
-  background:rgba(0,0,0,.8);color:#fff;font-size:11px;font-weight:700;
-  padding:3px 8px;border-radius:6px;
-}
+.clip-dur{ position:absolute;bottom:8px;left:8px; background:rgba(0,0,0,.8);color:#fff;font-size:11px;font-weight:700; padding:3px 8px;border-radius:6px;}
 .clip-body{padding:10px 12px 12px}
 .clip-name{font-size:13.5px;font-weight:700;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .clip-meta{font-size:11.5px;color:var(--muted);margin-bottom:10px}
 .clip-actions{display:flex;gap:6px}
-.clip-actions button{
-  flex:1;padding:8px;border-radius:9px;border:1px solid var(--line);
-  background:#0d1712;color:var(--text);font-size:12px;font-weight:700;
-  cursor:pointer;font-family:inherit;transition:.15s;
-}
+.clip-actions button{ flex:1;padding:8px;border-radius:9px;border:1px solid var(--line); background:#0d1712;color:var(--text);font-size:12px;font-weight:700; cursor:pointer;font-family:inherit;transition:.15s;}
 .clip-actions button:hover{border-color:var(--green);color:var(--green)}
 .clip-actions button.danger:hover{border-color:var(--danger);color:var(--danger)}
 
-/* ===== Modals ===== */
-.modal{
-  position:fixed;inset:0;z-index:120;display:none;
-  align-items:center;justify-content:center;padding:16px;
-  background:rgba(3,7,5,.78);backdrop-filter:blur(6px);
-}
+/* Modals */
+.modal{ position:fixed;inset:0;z-index:120;display:none; align-items:center;justify-content:center;padding:16px; background:rgba(3,7,5,.78);backdrop-filter:blur(6px);}
 .modal.show{display:flex}
-.modal-card{
-  width:100%;max-width:820px;max-height:92vh;overflow:auto;
-  background:linear-gradient(180deg,#101a15,#0a120e);
-  border:1px solid #26382f;border-radius:18px;
-  padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.8);
-}
+.modal-card{ width:100%;max-width:820px;max-height:92vh;overflow:auto; background:linear-gradient(180deg,#101a15,#0a120e); border:1px solid #26382f;border-radius:18px; padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.8);}
 .modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .modal-head h3{margin:0;font-size:17px;color:var(--green)}
-.icon-btn{
-  background:transparent;border:1px solid var(--line);color:var(--muted);
-  width:34px;height:34px;border-radius:10px;cursor:pointer;font-size:15px;
-  transition:.15s;font-family:inherit;
-}
+.icon-btn{ background:transparent;border:1px solid var(--line);color:var(--muted); width:34px;height:34px;border-radius:10px;cursor:pointer;font-size:15px; transition:.15s;font-family:inherit;}
 .icon-btn:hover{border-color:var(--danger);color:var(--danger)}
-.modal video{
-  width:100%;border-radius:12px;background:#000;display:block;
-  max-height:46vh;
-}
+.modal video{ width:100%;border-radius:12px;background:#000;display:block; max-height:46vh;}
 
-/* Trim UI */
 .trim-wrap{margin:16px 0}
-.trim-track{
-  position:relative;height:12px;border-radius:8px;background:#0a120e;
-  border:1px solid var(--line);overflow:hidden;margin-bottom:14px;
-}
-.trim-range{
-  position:absolute;top:0;bottom:0;
-  background:linear-gradient(90deg,#53fc18,#2ee06a);
-  opacity:.55;border-radius:6px;
-}
+.trim-track{ position:relative;height:12px;border-radius:8px;background:#0a120e; border:1px solid var(--line);overflow:hidden;margin-bottom:14px;}
+.trim-range{ position:absolute;top:0;bottom:0; background:linear-gradient(90deg,#53fc18,#2ee06a); opacity:.55;border-radius:6px;}
 .trim-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
 .trim-row label{font-size:12.5px;color:var(--muted);min-width:74px}
 .trim-row output{font-size:12.5px;color:var(--green);font-weight:700;min-width:56px;text-align:left}
-input[type=range]{
-  -webkit-appearance:none;appearance:none;flex:1;height:6px;border-radius:5px;
-  background:#1c2a23;outline:none;cursor:pointer;
-}
-input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:17px;height:17px;border-radius:50%;
-  background:var(--green);border:3px solid #0a120e;cursor:pointer;
-  box-shadow:0 0 0 1px rgba(83,252,24,.6);
-}
-input[type=range]::-moz-range-thumb{
-  width:15px;height:15px;border-radius:50%;background:var(--green);
-  border:3px solid #0a120e;cursor:pointer;
-}
+input[type=range]{ -webkit-appearance:none;appearance:none;flex:1;height:6px;border-radius:5px; background:#1c2a23;outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none;width:17px;height:17px;border-radius:50%; background:var(--green);border:3px solid #0a120e;cursor:pointer; box-shadow:0 0 0 1px rgba(83,252,24,.6);}
 
 .modal-foot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:6px}
-.modal-foot input[type=text]{
-  flex:1;min-width:180px;padding:12px 14px;border-radius:12px;
-  border:1px solid var(--line);background:#0a120e;color:var(--text);
-  font-family:inherit;font-size:14px;outline:none;
-}
+.modal-foot input[type=text]{ flex:1;min-width:180px;padding:12px 14px;border-radius:12px; border:1px solid var(--line);background:#0a120e;color:var(--text); font-family:inherit;font-size:14px;outline:none;}
 .modal-foot input[type=text]:focus{border-color:var(--green)}
 
-/* ===== Busy + Toast ===== */
-.busy{
-  position:fixed;inset:0;z-index:200;display:none;
-  align-items:center;justify-content:center;gap:14px;flex-direction:column;
-  background:rgba(3,7,5,.85);backdrop-filter:blur(4px);
-  font-size:14px;font-weight:700;color:var(--green);
-}
+/* Busy + Toast */
+.busy{ position:fixed;inset:0;z-index:200;display:none; align-items:center;justify-content:center;gap:14px;flex-direction:column; background:rgba(3,7,5,.85);backdrop-filter:blur(4px); font-size:14px;font-weight:700;color:var(--green);}
 .busy.show{display:flex}
-.spinner{
-  width:46px;height:46px;border-radius:50%;
-  border:3px solid rgba(83,252,24,.15);border-top-color:var(--green);
-  animation:spin .8s linear infinite;
-}
+.spinner{ width:46px;height:46px;border-radius:50%; border:3px solid rgba(83,252,24,.15);border-top-color:var(--green); animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
-
 .toasts{position:fixed;bottom:20px;right:20px;z-index:300;display:flex;flex-direction:column;gap:10px}
-.toast{
-  background:#10201a;border:1px solid var(--line);border-right:4px solid var(--green);
-  color:var(--text);padding:12px 16px;border-radius:12px;font-size:13.5px;
-  box-shadow:0 12px 30px rgba(0,0,0,.6);max-width:340px;
-  animation:slideIn .25s ease;
-}
+.toast{ background:#10201a;border:1px solid var(--line);border-right:4px solid var(--green); color:var(--text);padding:12px 16px;border-radius:12px;font-size:13.5px; box-shadow:0 12px 30px rgba(0,0,0,.6);max-width:340px; animation:slideIn .25s ease;}
 .toast.err{border-right-color:var(--danger)}
 @keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:none}}
 
-/* ===== Responsive ===== */
 @media (max-width:900px){
   .stage{grid-template-columns:1fr}
   .chat-card{min-height:380px}
 }
 @media (max-width:560px){
-  .logo{font-size:20px}
-  .tagline{display:none}
-  .searchbar input{min-width:100%}
+  .logo{font-size:20px} .tagline{display:none}
+  .searchbar input[type="text"]{min-width:100%}
   .btn{flex:1}
 }
 </style>
@@ -314,22 +143,22 @@ input[type=range]::-moz-range-thumb{
 </header>
 
 <main class="wrap">
-
-  <!-- شريط التحكم -->
   <section class="searchbar">
     <input type="text" id="channelName" placeholder="اكتب اسم القناة أو الصق رابط kick.com/...">
     <button class="btn primary" onclick="playChannel()">▶ تشغيل</button>
     <button class="btn ghost" onclick="addFavorite()">＋ مفضلة</button>
     <button class="btn ghost" id="toggleChatBtn" onclick="toggleChat()">💬 إخفاء الشات</button>
+    
     <button class="btn rec" id="recBtn" onclick="toggleRecording()">● تسجيل</button>
+    
+    <button class="btn ghost" onclick="document.getElementById('videoUpload').click()">⬆ رفع فيديو</button>
+    <input type="file" id="videoUpload" accept="video/*" style="display:none;" onchange="handleVideoUpload(event)">
   </section>
 
-  <!-- المشغل + الشات -->
   <section class="stage" id="stage">
     <div class="video-card">
       <div class="video-frame">
-        <iframe id="player" src="about:blank" allowfullscreen
-                allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+        <iframe id="player" src="about:blank" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
       </div>
       <div class="video-foot">
         <span id="nowPlaying">لم يتم اختيار قناة بعد</span>
@@ -341,24 +170,16 @@ input[type=range]::-moz-range-thumb{
     </div>
   </section>
 
-  <!-- المفضلة -->
   <section class="panel">
-    <div class="panel-head">
-      <h2>⭐ الستريمرز المفضلون</h2>
-      <span class="hint">محفوظون في متصفحك</span>
-    </div>
+    <div class="panel-head"><h2>⭐ الستريمرز المفضلون</h2></div>
     <div class="streamer-grid" id="favoritesList"></div>
   </section>
 
-  <!-- الأشهر -->
   <section class="panel">
-    <div class="panel-head">
-      <h2>🔥 أشهر ستريمرز Kick</h2>
-    </div>
+    <div class="panel-head"><h2>🔥 أشهر ستريمرز Kick</h2></div>
     <div class="streamer-grid" id="topList"></div>
   </section>
 
-  <!-- مكتبة الكليبات -->
   <section class="panel">
     <div class="panel-head">
       <h2>🎞️ مكتبة الكليبات</h2>
@@ -366,23 +187,18 @@ input[type=range]::-moz-range-thumb{
     </div>
     <div class="clips-grid" id="clipsGrid"></div>
   </section>
-
 </main>
 
-<!-- ===== مودال محرر الكليب ===== -->
+<!-- مودال محرر الكليب -->
 <div class="modal" id="editorModal">
   <div class="modal-card">
     <div class="modal-head">
       <h3>✂️ إنشاء كليب</h3>
       <button class="icon-btn" onclick="closeEditor()">✕</button>
     </div>
-
     <video id="editorVideo" controls playsinline></video>
-
     <div class="trim-wrap">
-      <div class="trim-track">
-        <div class="trim-range" id="trimRange"></div>
-      </div>
+      <div class="trim-track"><div class="trim-range" id="trimRange"></div></div>
       <div class="trim-row">
         <label>البداية</label>
         <input type="range" id="startRange" min="0" max="100" step="0.1" value="0">
@@ -394,7 +210,6 @@ input[type=range]::-moz-range-thumb{
         <output id="endVal">0:00</output>
       </div>
     </div>
-
     <div class="modal-foot">
       <input type="text" id="clipName" placeholder="اسم الكليب (اختياري)">
       <button class="btn ghost" onclick="previewSegment()">▶ معاينة</button>
@@ -404,7 +219,6 @@ input[type=range]::-moz-range-thumb{
   </div>
 </div>
 
-<!-- ===== مودال مشاهدة كليب ===== -->
 <div class="modal" id="viewModal">
   <div class="modal-card">
     <div class="modal-head">
@@ -419,7 +233,6 @@ input[type=range]::-moz-range-thumb{
   </div>
 </div>
 
-<!-- ===== معالجة ===== -->
 <div class="busy" id="busy">
   <div class="spinner"></div>
   <span id="busyText">جاري المعالجة...</span>
@@ -428,21 +241,12 @@ input[type=range]::-moz-range-thumb{
 <div class="toasts" id="toasts"></div>
 
 <script>
-/* =========================================================
-   1) قائمة الستريمرز + المشغل
-   ========================================================= */
-const topStreamers = [
-  "Fahad","SXB","xEiD","ABOKYAN","xQc","AdinRoss",
-  "Amouranth","Hikaru","WestCOL","bo3of","oPiiLz","abuswe7l"
-];
-
+const topStreamers = ["Fahad", "SXB", "xEiD", "ABOKYAN", "xQc", "AdinRoss", "Amouranth", "Hikaru", "WestCOL", "bo3of", "oPiiLz", "abuswe7l"];
 let isChatVisible = true;
 let currentChannel = "";
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderFavorites();
-  renderTopList();
-  renderClips();
+  renderFavorites(); renderTopList(); renderClips();
 });
 
 function toast(msg, type = "ok") {
@@ -453,20 +257,15 @@ function toast(msg, type = "ok") {
   setTimeout(() => {
     el.style.transition = ".3s"; el.style.opacity = "0"; el.style.transform = "translateX(-20px)";
     setTimeout(() => el.remove(), 320);
-  }, 3200);
+  }, 3500);
 }
 
-function cleanChannel(raw) {
-  return raw.replace(/^https?:\/\/(www\.)?kick\.com\//i, "")
-            .replace(/^\/+/, "").replace(/\/.*$/, "").trim();
-}
-
+function cleanChannel(raw) { return raw.replace(/^https?:\/\/(www\.)?kick\.com\//i, "").replace(/^\/+/, "").replace(/\/.*$/, "").trim(); }
 function playChannel() {
   const raw = document.getElementById("channelName").value.trim();
   if (!raw) return toast("يرجى إدخال اسم القناة!", "err");
   loadStream(raw);
 }
-
 function loadStream(channel) {
   const name = cleanChannel(channel);
   if (!name) return toast("اسم القناة غير صالح", "err");
@@ -476,12 +275,10 @@ function loadStream(channel) {
   document.getElementById("nowPlaying").innerHTML = `تشغيل: <span style="color:#53fc18;font-weight:800">${name}</span>`;
   document.getElementById("liveState").textContent = "● LIVE";
 }
-
 function selectStreamer(name) {
   document.getElementById("channelName").value = name;
   loadStream(name);
 }
-
 function toggleChat() {
   isChatVisible = !isChatVisible;
   document.getElementById("chatBox").style.display = isChatVisible ? "" : "none";
@@ -489,80 +286,56 @@ function toggleChat() {
   document.getElementById("toggleChatBtn").textContent = isChatVisible ? "💬 إخفاء الشات" : "💬 إظهار الشات";
 }
 
-/* =========================================================
-   2) المفضلة (localStorage)
-   ========================================================= */
 function getFavorites() {
   try { return JSON.parse(localStorage.getItem("qort_favorites")) || ["Fahad", "SXB", "xEiD"]; }
   catch { return ["Fahad", "SXB", "xEiD"]; }
 }
 function saveFavorites(f) { localStorage.setItem("qort_favorites", JSON.stringify(f)); }
-
 function addFavorite() {
   let raw = document.getElementById("channelName").value.trim();
   if (!raw) return toast("اكتب اسم القناة أولاً!", "err");
   const name = cleanChannel(raw);
   const favs = getFavorites();
-  if (favs.some(f => f.toLowerCase() === name.toLowerCase()))
-    return toast("القناة موجودة بالفعل في المفضلة!", "err");
-  favs.push(name);
-  saveFavorites(favs);
-  renderFavorites();
-  toast(`تمت إضافة ${name} للمفضلة ⭐`);
+  if (favs.some(f => f.toLowerCase() === name.toLowerCase())) return toast("القناة موجودة بالفعل!", "err");
+  favs.push(name); saveFavorites(favs); renderFavorites();
+  toast(`تمت إضافة ${name} ⭐`);
 }
-
 function removeFavorite(name) {
   saveFavorites(getFavorites().filter(f => f.toLowerCase() !== name.toLowerCase()));
-  renderFavorites();
-  toast(`تم حذف ${name}`);
+  renderFavorites(); toast(`تم حذف ${name}`);
 }
-
 function renderFavorites() {
   const c = document.getElementById("favoritesList");
   const favs = getFavorites();
-  c.innerHTML = "";
-  if (!favs.length) { c.innerHTML = `<div class="empty">لا يوجد ستريمرز مفضلون حتى الآن.</div>`; return; }
+  c.innerHTML = favs.length ? "" : `<div class="empty">لا يوجد ستريمرز مفضلون.</div>`;
   favs.forEach(name => {
-    const d = document.createElement("div");
-    d.className = "streamer-item";
-    d.innerHTML = `
-      <button class="streamer-btn" onclick="selectStreamer('${esc(name)}')">${esc(name)}</button>
-      <button class="remove-btn" onclick="removeFavorite('${esc(name)}')">✕</button>`;
+    const d = document.createElement("div"); d.className = "streamer-item";
+    d.innerHTML = `<button class="streamer-btn" onclick="selectStreamer('${esc(name)}')">${esc(name)}</button>
+                   <button class="remove-btn" onclick="removeFavorite('${esc(name)}')">✕</button>`;
     c.appendChild(d);
   });
 }
-
 function renderTopList() {
-  const c = document.getElementById("topList");
-  c.innerHTML = "";
+  const c = document.getElementById("topList"); c.innerHTML = "";
   topStreamers.forEach(name => {
-    const d = document.createElement("div");
-    d.className = "streamer-item";
+    const d = document.createElement("div"); d.className = "streamer-item";
     d.innerHTML = `<button class="streamer-btn" onclick="selectStreamer('${esc(name)}')">${esc(name)}</button>`;
     c.appendChild(d);
   });
 }
-
 function esc(s) { return String(s).replace(/'/g, "\\'").replace(/</g, "&lt;"); }
 
-/* =========================================================
-   3) التسجيل من الشاشة
-   ========================================================= */
-let mediaRecorder = null;
-let recChunks = [];
-let recStream = null;
-let recTimerInt = null;
-let recStartedAt = 0;
-let lastRecordingDuration = 0;
-let isRecording = false;
+function handleVideoUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  openEditor(file);
+  e.target.value = '';
+}
+
+let mediaRecorder = null, recChunks = [], recStream = null, recTimerInt = null, recStartedAt = 0, lastRecordingDuration = 0, isRecording = false;
 
 function pickMime() {
-  const list = [
-    "video/webm;codecs=vp9,opus",
-    "video/webm;codecs=vp8,opus",
-    "video/webm",
-    "video/mp4"
-  ];
+  const list = ["video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm", "video/mp4"];
   if (!window.MediaRecorder) return "";
   return list.find(t => MediaRecorder.isTypeSupported(t)) || "";
 }
@@ -573,52 +346,41 @@ function toggleRecording() {
 }
 
 async function startRecording() {
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia)
-    return toast("متصفحك لا يدعم تسجيل الشاشة", "err");
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+    return toast("التسجيل غير مدعوم في متصفح الجوال. يرجى استخدام زر (رفع فيديو) بدلاً من ذلك.", "err");
+  }
 
   try {
     const stream = await navigator.mediaDevices.getDisplayMedia({
-      video: { frameRate: 30 },
+      // [تحديث الجودة] رفع الإطارات إلى 60 وتحديد الدقة المطلوبة
+      video: { frameRate: 60, width: { ideal: 1920 }, height: { ideal: 1080 } },
       audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
     });
-
-    recStream = stream;
-    recChunks = [];
+    recStream = stream; recChunks = [];
     const mime = pickMime();
-    mediaRecorder = new MediaRecorder(stream, mime
-      ? { mimeType: mime, videoBitsPerSecond: 6_000_000 }
-      : undefined);
-
+    
+    // [تحديث الجودة] رفع معدل البت إلى 15 ميجابت (جودة عالية جداً)
+    mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: 15_000_000 } : undefined);
+    
     mediaRecorder.ondataavailable = e => { if (e.data && e.data.size) recChunks.push(e.data); };
     mediaRecorder.onstop = handleRecordingStop;
-
-    // إذا أوقف المستخدم المشاركة من المتصفح
-    stream.getVideoTracks()[0].addEventListener("ended", () => {
-      if (isRecording) stopRecording();
-    });
-
+    stream.getVideoTracks()[0].addEventListener("ended", () => { if (isRecording) stopRecording(); });
+    
     mediaRecorder.start(250);
-    isRecording = true;
-    recStartedAt = Date.now();
-    lastRecordingDuration = 0;
+    isRecording = true; recStartedAt = Date.now(); lastRecordingDuration = 0;
 
-    // واجهة
     const btn = document.getElementById("recBtn");
-    btn.classList.add("active");
-    btn.textContent = "■ إيقاف 00:00";
+    btn.classList.add("active"); btn.textContent = "■ إيقاف 00:00";
     document.getElementById("recPill").classList.add("on");
     document.getElementById("recPillText").textContent = "جاري التسجيل";
 
     recTimerInt = setInterval(() => {
       const s = Math.floor((Date.now() - recStartedAt) / 1000);
       lastRecordingDuration = s;
-      const t = formatTime(s);
-      btn.textContent = `■ إيقاف ${t}`;
-      document.getElementById("recPillText").textContent = `تسجيل ${t}`;
+      btn.textContent = `■ إيقاف ${formatTime(s)}`;
+      document.getElementById("recPillText").textContent = `تسجيل ${formatTime(s)}`;
     }, 500);
-
-    toast("بدأ التسجيل — أوقفه عند نهاية اللحظة المطلوبة ✂️");
-
+    toast("بدأ التسجيل بجودة عالية — أوقفه عند نهاية اللحظة ✂️");
   } catch (err) {
     if (err && err.name !== "NotAllowedError") toast("تعذّر بدء التسجيل", "err");
   }
@@ -630,10 +392,9 @@ function stopRecording() {
   clearInterval(recTimerInt);
   try { if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop(); } catch (e) {}
   if (recStream) recStream.getTracks().forEach(t => t.stop());
-
+  
   const btn = document.getElementById("recBtn");
-  btn.classList.remove("active");
-  btn.textContent = "● تسجيل";
+  btn.classList.remove("active"); btn.textContent = "● تسجيل";
   document.getElementById("recPill").classList.remove("on");
   document.getElementById("recPillText").textContent = "غير مسجل";
 }
@@ -642,77 +403,53 @@ function handleRecordingStop() {
   const mime = (mediaRecorder && mediaRecorder.mimeType) || pickMime() || "video/webm";
   const blob = new Blob(recChunks, { type: mime });
   recChunks = [];
-  if (blob.size < 2000) return toast("التسجيل فارغ، حاول مرة أخرى", "err");
+  if (blob.size < 2000) return toast("التسجيل فارغ!", "err");
   openEditor(blob);
 }
 
-/* =========================================================
-   4) محرر الكليب
-   ========================================================= */
-let editorBlob = null;
-let editorUrl = null;
-let editorDuration = 0;
-let previewStopAt = null;
+let editorBlob = null, editorUrl = null, editorDuration = 0, previewStopAt = null;
 
 async function openEditor(blob) {
   editorBlob = blob;
   if (editorUrl) URL.revokeObjectURL(editorUrl);
   editorUrl = URL.createObjectURL(blob);
-
   const v = document.getElementById("editorVideo");
   v.src = editorUrl;
-
-  await new Promise(res => {
-    v.onloadedmetadata = res;
-    v.onerror = res;
-  });
-
+  
+  await new Promise(res => { v.onloadedmetadata = res; v.onerror = res; });
   let dur = isFinite(v.duration) && v.duration > 0 ? v.duration : 0;
   if (!dur) dur = await probeDuration(v);
   if (!dur || !isFinite(dur)) dur = Math.max(lastRecordingDuration, 1);
   editorDuration = dur;
 
-  const sR = document.getElementById("startRange");
-  const eR = document.getElementById("endRange");
+  const sR = document.getElementById("startRange"), eR = document.getElementById("endRange");
   sR.min = 0; sR.max = dur.toFixed(1); sR.value = 0;
   eR.min = 0; eR.max = dur.toFixed(1); eR.value = dur.toFixed(1);
-
   document.getElementById("clipName").value = "";
   updateTrimUI();
   document.getElementById("editorModal").classList.add("show");
 }
 
-/* بعض ملفات webm لا تُظهر المدة — نجبرها بالبحث لآخر الفيديو */
 function probeDuration(v) {
   return new Promise(resolve => {
     let done = false;
     const finish = d => { if (!done) { done = true; v.ontimeupdate = null; v.currentTime = 0; resolve(d); } };
-    v.ontimeupdate = () => {
-      if (v.duration !== Infinity && isFinite(v.duration) && v.duration > 0) finish(v.duration);
-    };
+    v.ontimeupdate = () => { if (isFinite(v.duration) && v.duration > 0) finish(v.duration); };
     try { v.currentTime = 1e6; } catch (e) { finish(0); }
     setTimeout(() => finish(isFinite(v.duration) ? v.duration : 0), 1600);
   });
 }
 
 function updateTrimUI() {
-  const sR = document.getElementById("startRange");
-  const eR = document.getElementById("endRange");
+  const sR = document.getElementById("startRange"), eR = document.getElementById("endRange");
   let s = parseFloat(sR.value), e = parseFloat(eR.value);
-
-  if (s > e - 0.3) {
-    s = Math.max(0, e - 0.3);
-    sR.value = s;
-  }
+  if (s > e - 0.3) { s = Math.max(0, e - 0.3); sR.value = s; }
   document.getElementById("startVal").textContent = formatTime(s);
   document.getElementById("endVal").textContent = formatTime(e);
-
-  const bar = document.getElementById("trimRange");
-  const total = editorDuration || 1;
+  const bar = document.getElementById("trimRange"), total = editorDuration || 1;
   bar.style.right = (s / total * 100) + "%";
   bar.style.width = Math.max(0, ((e - s) / total * 100)) + "%";
 }
-
 document.getElementById("startRange").addEventListener("input", updateTrimUI);
 document.getElementById("endRange").addEventListener("input", updateTrimUI);
 
@@ -720,66 +457,42 @@ function previewSegment() {
   const v = document.getElementById("editorVideo");
   const s = parseFloat(document.getElementById("startRange").value);
   const e = parseFloat(document.getElementById("endRange").value);
-  previewStopAt = e;
-  v.currentTime = s;
-  v.play().catch(() => {});
-  v.ontimeupdate = () => {
-    if (previewStopAt !== null && v.currentTime >= previewStopAt) {
-      v.pause();
-      previewStopAt = null;
-    }
-  };
+  previewStopAt = e; v.currentTime = s; v.play().catch(() => {});
+  v.ontimeupdate = () => { if (previewStopAt !== null && v.currentTime >= previewStopAt) { v.pause(); previewStopAt = null; } };
 }
 
 function closeEditor() {
   const v = document.getElementById("editorVideo");
-  v.pause();
-  v.removeAttribute("src");
-  v.load();
+  v.pause(); v.removeAttribute("src"); v.load();
   document.getElementById("editorModal").classList.remove("show");
   if (editorUrl) { URL.revokeObjectURL(editorUrl); editorUrl = null; }
   editorBlob = null;
 }
 
-/* قص المقطع بإعادة تسجيله */
 function trimBlob(blob, start, end) {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(blob);
     const v = document.createElement("video");
-    v.src = url;
-    v.playsInline = true;
-    v.muted = false;
+    v.src = url; v.playsInline = true; v.muted = false;
     v.style.cssText = "position:fixed;left:-9999px;top:0;width:2px;height:2px;opacity:.01";
     document.body.appendChild(v);
-
-    const cleanup = () => {
-      try { v.pause(); } catch (e) {}
-      URL.revokeObjectURL(url);
-      v.remove();
-    };
-
+    const cleanup = () => { try { v.pause(); } catch (e) {} URL.revokeObjectURL(url); v.remove(); };
     v.onerror = () => { cleanup(); reject(new Error("تعذّر قراءة الفيديو")); };
-
     v.onloadeddata = async () => {
       try {
         await new Promise(res => { v.onseeked = res; v.currentTime = start; setTimeout(res, 900); });
-
         const stream = v.captureStream ? v.captureStream() : (v.mozCaptureStream ? v.mozCaptureStream() : null);
         if (!stream) { cleanup(); return reject(new Error("المتصفح لا يدعم القص")); }
-
         const mime = pickMime();
-        const rec = new MediaRecorder(stream, mime
-          ? { mimeType: mime, videoBitsPerSecond: 6_000_000 } : undefined);
+        
+        // [تحديث الجودة] الحفاظ على جودة عالية عند القص (15 ميجابت)
+        const rec = new MediaRecorder(stream, mime ? { mimeType: mime, videoBitsPerSecond: 15_000_000 } : undefined);
+        
         const chunks = [];
         rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
-        rec.onstop = () => {
-          cleanup();
-          resolve(new Blob(chunks, { type: rec.mimeType || mime || "video/webm" }));
-        };
-
+        rec.onstop = () => { cleanup(); resolve(new Blob(chunks, { type: rec.mimeType || mime || "video/webm" })); };
         rec.start(200);
         await v.play();
-
         const check = () => {
           if (v.currentTime >= end - 0.06 || v.ended) {
             v.removeEventListener("timeupdate", check);
@@ -797,13 +510,13 @@ async function saveClip(shouldDownload) {
   if (!editorBlob) return;
   const s = parseFloat(document.getElementById("startRange").value);
   const e = parseFloat(document.getElementById("endRange").value);
-  if (e - s < 0.3) return toast("المدة قصيرة جداً (أقل من 0.3 ثانية)", "err");
-
+  if (e - s < 0.3) return toast("المدة قصيرة جداً!", "err");
+  
   const nameInput = document.getElementById("clipName").value.trim();
   const autoName = `كليب ${currentChannel || "Kick"} — ${new Date().toLocaleString("ar-EG")}`;
   const name = (nameInput || autoName).slice(0, 80);
 
-  showBusy("جاري معالجة الكليب...");
+  showBusy("جاري معالجة الكليب بجودة عالية...");
   try {
     const needTrim = s > 0.08 || Math.abs(e - editorDuration) > 0.35;
     const out = needTrim ? await trimBlob(editorBlob, s, e) : editorBlob;
@@ -814,129 +527,61 @@ async function saveClip(shouldDownload) {
     } else {
       showBusy("جاري حفظ الكليب...");
       const thumb = await makeThumb(out);
-      const clip = {
-        id: (crypto.randomUUID ? crypto.randomUUID() : "c" + Date.now() + Math.random().toString(16).slice(2)),
-        name,
-        blob: out,
-        thumb,
-        duration: Math.round((e - s) * 10) / 10,
-        size: out.size,
-        createdAt: Date.now(),
-        channel: currentChannel || ""
-      };
+      const clip = { id: (crypto.randomUUID ? crypto.randomUUID() : "c" + Date.now() + Math.random().toString(16).slice(2)), name, blob: out, thumb, duration: Math.round((e - s) * 10) / 10, size: out.size, createdAt: Date.now(), channel: currentChannel || "" };
       await dbPut(clip);
       await renderClips();
       toast("تم حفظ الكليب في المكتبة 🎞️");
       closeEditor();
     }
   } catch (err) {
-    console.error(err);
-    toast("حدث خطأ أثناء معالجة الكليب", "err");
-  } finally {
-    hideBusy();
-  }
+    console.error(err); toast("حدث خطأ أثناء معالجة الكليب", "err");
+  } finally { hideBusy(); }
 }
 
 function safeFileName(n) { return n.replace(/[\\/:*?"<>|]/g, "-").slice(0, 60); }
-
 function downloadBlob(blob, filename) {
   const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url; a.download = filename;
+  const a = document.createElement("a"); a.href = url; a.download = filename;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
-
 async function makeThumb(blob) {
   try {
     const url = URL.createObjectURL(blob);
-    const v = document.createElement("video");
-    v.src = url; v.muted = true; v.playsInline = true;
+    const v = document.createElement("video"); v.src = url; v.muted = true; v.playsInline = true;
     await new Promise(r => { v.onloadeddata = r; v.onerror = r; setTimeout(r, 1500); });
     try { v.currentTime = Math.min(1, (v.duration || 2) / 2); } catch (e) {}
     await new Promise(r => { v.onseeked = r; setTimeout(r, 900); });
-    const c = document.createElement("canvas");
-    c.width = 320; c.height = 180;
+    const c = document.createElement("canvas"); c.width = 320; c.height = 180;
     c.getContext("2d").drawImage(v, 0, 0, 320, 180);
-    const data = c.toDataURL("image/jpeg", 0.7);
-    URL.revokeObjectURL(url);
-    return data;
+    const data = c.toDataURL("image/jpeg", 0.7); URL.revokeObjectURL(url); return data;
   } catch (e) { return ""; }
 }
 
-/* =========================================================
-   5) تخزين الكليبات في IndexedDB
-   ========================================================= */
-const DB_NAME = "qort_db";
-const STORE = "clips";
-
+const DB_NAME = "qort_db", STORE = "clips";
 function openDB() {
   return new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, 1);
-    req.onupgradeneeded = () => {
-      const db = req.result;
-      if (!db.objectStoreNames.contains(STORE)) db.createObjectStore(STORE, { keyPath: "id" });
-    };
+    req.onupgradeneeded = () => { const db = req.result; if (!db.objectStoreNames.contains(STORE)) db.createObjectStore(STORE, { keyPath: "id" }); };
     req.onsuccess = () => resolve(req.result);
     req.onerror = () => reject(req.error);
   });
 }
-async function dbPut(clip) {
-  const db = await openDB();
-  return new Promise((res, rej) => {
-    const tx = db.transaction(STORE, "readwrite");
-    tx.objectStore(STORE).put(clip);
-    tx.oncomplete = res; tx.onerror = () => rej(tx.error);
-  });
-}
-async function dbGetAll() {
-  const db = await openDB();
-  return new Promise((res, rej) => {
-    const tx = db.transaction(STORE, "readonly");
-    const rq = tx.objectStore(STORE).getAll();
-    rq.onsuccess = () => res(rq.result || []);
-    rq.onerror = () => rej(rq.error);
-  });
-}
-async function dbGet(id) {
-  const db = await openDB();
-  return new Promise((res, rej) => {
-    const tx = db.transaction(STORE, "readonly");
-    const rq = tx.objectStore(STORE).get(id);
-    rq.onsuccess = () => res(rq.result);
-    rq.onerror = () => rej(rq.error);
-  });
-}
-async function dbDelete(id) {
-  const db = await openDB();
-  return new Promise((res, rej) => {
-    const tx = db.transaction(STORE, "readwrite");
-    tx.objectStore(STORE).delete(id);
-    tx.oncomplete = res; tx.onerror = () => rej(tx.error);
-  });
-}
+async function dbPut(clip) { const db = await openDB(); return new Promise((res, rej) => { const tx = db.transaction(STORE, "readwrite"); tx.objectStore(STORE).put(clip); tx.oncomplete = res; tx.onerror = () => rej(tx.error); }); }
+async function dbGetAll() { const db = await openDB(); return new Promise((res, rej) => { const tx = db.transaction(STORE, "readonly"); const rq = tx.objectStore(STORE).getAll(); rq.onsuccess = () => res(rq.result || []); rq.onerror = () => rej(rq.error); }); }
+async function dbGet(id) { const db = await openDB(); return new Promise((res, rej) => { const tx = db.transaction(STORE, "readonly"); const rq = tx.objectStore(STORE).get(id); rq.onsuccess = () => res(rq.result); rq.onerror = () => rej(rq.error); }); }
+async function dbDelete(id) { const db = await openDB(); return new Promise((res, rej) => { const tx = db.transaction(STORE, "readwrite"); tx.objectStore(STORE).delete(id); tx.oncomplete = res; tx.onerror = () => rej(tx.error); }); }
 
-/* =========================================================
-   6) عرض مكتبة الكليبات
-   ========================================================= */
 async function renderClips() {
-  const grid = document.getElementById("clipsGrid");
-  const counter = document.getElementById("clipsCount");
+  const grid = document.getElementById("clipsGrid"), counter = document.getElementById("clipsCount");
   let clips = [];
   try { clips = await dbGetAll(); } catch (e) { console.warn(e); }
-
   clips.sort((a, b) => b.createdAt - a.createdAt);
   counter.textContent = clips.length + " كليب";
-  grid.innerHTML = "";
-
-  if (!clips.length) {
-    grid.innerHTML = `<div class="empty">لا توجد كليبات بعد — اضغط «تسجيل» وأنشئ أول كليب لك 🎬</div>`;
-    return;
-  }
+  grid.innerHTML = clips.length ? "" : `<div class="empty">لا توجد كليبات بعد — سجل أو ارفع فيديو لإنشاء أول كليب 🎬</div>`;
 
   clips.forEach(c => {
-    const card = document.createElement("article");
-    card.className = "clip-card";
+    const card = document.createElement("article"); card.className = "clip-card";
     card.innerHTML = `
       <div class="clip-thumb" style="${c.thumb ? `background-image:url('${c.thumb}')` : ""}">
         <button class="play" onclick="openClip('${c.id}')">▶</button>
@@ -954,14 +599,8 @@ async function renderClips() {
     grid.appendChild(card);
   });
 }
-
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
-}
-
-let viewedClip = null;
-let viewedUrl = null;
-
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m])); }
+let viewedClip = null, viewedUrl = null;
 async function openClip(id) {
   const c = await dbGet(id);
   if (!c) return toast("لم يتم العثور على الكليب", "err");
@@ -969,59 +608,27 @@ async function openClip(id) {
   if (viewedUrl) URL.revokeObjectURL(viewedUrl);
   viewedUrl = URL.createObjectURL(c.blob);
   document.getElementById("viewTitle").textContent = c.name;
-  const v = document.getElementById("viewVideo");
-  v.src = viewedUrl;
+  document.getElementById("viewVideo").src = viewedUrl;
   document.getElementById("viewModal").classList.add("show");
 }
-
 function closeView() {
-  const v = document.getElementById("viewVideo");
-  v.pause();
-  v.removeAttribute("src");
-  v.load();
+  const v = document.getElementById("viewVideo"); v.pause(); v.removeAttribute("src"); v.load();
   document.getElementById("viewModal").classList.remove("show");
   if (viewedUrl) { URL.revokeObjectURL(viewedUrl); viewedUrl = null; }
   viewedClip = null;
 }
-
-function downloadViewed() {
-  if (!viewedClip) return;
-  downloadBlob(viewedClip.blob, safeFileName(viewedClip.name) + ".webm");
-}
-
-async function downloadClip(id) {
-  const c = await dbGet(id);
-  if (c) downloadBlob(c.blob, safeFileName(c.name) + ".webm");
-}
-
+function downloadViewed() { if (viewedClip) downloadBlob(viewedClip.blob, safeFileName(viewedClip.name) + ".webm"); }
+async function downloadClip(id) { const c = await dbGet(id); if (c) downloadBlob(c.blob, safeFileName(c.name) + ".webm"); }
 async function deleteClip(id) {
   if (!confirm("هل تريد حذف هذا الكليب نهائياً؟")) return;
-  await dbDelete(id);
-  await renderClips();
-  toast("تم حذف الكليب 🗑");
+  await dbDelete(id); await renderClips(); toast("تم حذف الكليب 🗑");
 }
 
-/* =========================================================
-   7) أدوات مساعدة
-   ========================================================= */
-function formatTime(sec) {
-  sec = Math.max(0, Math.round(sec || 0));
-  const m = Math.floor(sec / 60);
-  const s = sec % 60;
-  return `${m}:${String(s).padStart(2, "0")}`;
-}
-function formatBytes(b) {
-  if (!b) return "0 KB";
-  if (b < 1024 * 1024) return (b / 1024).toFixed(0) + " KB";
-  return (b / (1024 * 1024)).toFixed(1) + " MB";
-}
-function showBusy(text) {
-  document.getElementById("busyText").textContent = text || "جاري المعالجة...";
-  document.getElementById("busy").classList.add("show");
-}
+function formatTime(sec) { sec = Math.max(0, Math.round(sec || 0)); const m = Math.floor(sec / 60), s = sec % 60; return `${m}:${String(s).padStart(2, "0")}`; }
+function formatBytes(b) { if (!b) return "0 KB"; if (b < 1048576) return (b / 1024).toFixed(0) + " KB"; return (b / 1048576).toFixed(1) + " MB"; }
+function showBusy(text) { document.getElementById("busyText").textContent = text || "جاري المعالجة..."; document.getElementById("busy").classList.add("show"); }
 function hideBusy() { document.getElementById("busy").classList.remove("show"); }
 
-/* إغلاق المودالات بـ ESC */
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") {
     if (document.getElementById("editorModal").classList.contains("show")) closeEditor();
